@@ -9,7 +9,7 @@ class BackCheck is responsible for taking a user query ex: "John Smith"
 in darkmain.py and retrieving useful information from the clearnet,
 relating it to scraped .onion sites etc. 
 '''
-class BackCheck:
+class BackCheck(object):
 	def __init__(self, query, dob=None):
 		# Deal with flags in a query
 		self.query = query
