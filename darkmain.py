@@ -21,7 +21,7 @@ def index():
 	return render_template('index.html') 
 
 # Search method that provides us with results
-@app.route("search", methods=['POST', 'GET'])
+@app.route("/search", methods=['POST', 'GET'])
 def search():
 	alias = request.form['search']
 	alias = deFace(alias)
