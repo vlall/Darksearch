@@ -110,11 +110,11 @@ class BackCheck(object):
 		for i in usernames:
 			output.append(i)
 		# Check potential social media using the response200() method
-			self.response200(self.twitter, 'http://www.twitter.com/', i, 'Twitter')
-			self.response200(self.facebook, 'http://www.facebook.com/', i, 'Facebook')
-			self.response200(self.youtube, 'https://www.youtube.com/user/', i, 'YouTube')
-			self.response200(self.linkedin, 'http://www.linkedin.com/in/', i, 'LinkedIn')
-			self.response200(self.github, 'http://www.github.com/', i, 'GitHub')
+			self.response200(self.twitter, 'http://twitter.com/', i, 'Twitter')
+			self.response200(self.facebook, 'http://facebook.com/', i, 'Facebook')
+			self.response200(self.youtube, 'https://youtube.com/user/', i, 'YouTube')
+			self.response200(self.linkedin, 'http://linkedin.com/in/', i, 'LinkedIn')
+			self.response200(self.github, 'http://github.com/', i, 'GitHub')
 			self.onion_check(self.query,i)
 
 		return output
@@ -125,7 +125,7 @@ class BackCheck(object):
 		results = tree.xpath('.//cite/text()')
 		print results
 		for i in results:
-			self.torLinks.append(i)
+			self.torLinks.append('http://%s' % i)
 	# This function gets called in darkmain.py. It is meant to display each item as an HTML <li> for search.html
 	def searchResults(self, socialName, link, category='website'):
 		lowerName = socialName.lower()
