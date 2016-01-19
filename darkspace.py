@@ -4,16 +4,18 @@ import time
 import sys
 import requests
 #from validate_email import validate_email
+
 '''
 class BackCheck is responsible for taking a user query ex: "John Smith"
 in darkmain.py and retrieving useful information from the clearnet,
 relating it to scraped .onion sites etc. 
 '''
 class BackCheck(object):
+
+
 	def __init__(self, query, dob=None):
 		# Deal with flags in a query
 		self.query = query
-
 		'''
 			self.sections= query.split(',')
 			for i in self.sections:
@@ -21,16 +23,15 @@ class BackCheck(object):
 				flagValue = self.sections.split('--')[0]
 			if flagKey == 'user':
 		'''
-
 		self.dob = dob
 		y = self.nameChk()
 		self.output = self.checkSites(y)
-
 	'''
 	This function makes potential usernames from the given parameters
 	Usually, the parameters are a string of potential names, 
 	where we test each name out for information below
 	'''
+
 	def nameChk(self):
 		usernames = []
 		fullnames = []
@@ -65,13 +66,13 @@ class BackCheck(object):
 
 		# Return the list of potential usernames from the above
 		self.usernames = usernames
+		usernames = set(usernames)
 		return usernames
 
 	# Check websites if profiles exist, beware of rate limiting, should use APIs for this
 	def response200(self,socialList, website, username, socialName='site'):
 		#connect_timeout = 1
 		#read_timeout = 5.0
-
 		website = website + str(username)
 		#Old Request method
 		r = requests.get(website, stream=True)#, timeout=(connect_timeout, read_timeout))
