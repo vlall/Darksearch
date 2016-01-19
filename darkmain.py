@@ -12,8 +12,8 @@ app = Flask(__name__)
 
 # This runs from the darkspace.BackCheck function, and is the search engine
 def deFace(alias):
-	x = BackCheck(alias)
-	return x
+	search = BackCheck(alias)
+	return search
 
 # Home page search function 
 @app.route("/", methods=['POST', 'GET'])
@@ -21,18 +21,10 @@ def index():
 	return render_template('index.html') 
 
 # Search method that provides us with results
-@app.route("/search", methods=['POST', 'GET'])
+@app.route("search", methods=['POST', 'GET'])
 def search():
 	alias = request.form['search']
 	alias = deFace(alias)
-
-	#---OLD---
-	#These orignially generated just the variables, not formtted into HTML lists
-	#facebook = alias.facebook
-	#twitter = alias.twitter
-	#youtube = alias.youtube
-	#linkedin = alias.linkedin
-	#---END OLD--
 
 	# Markup lets you embed python strings as HTML code 
 	facebook = Markup(alias.searchResults('Facebook', alias.facebook, 'Social Media'))
@@ -40,12 +32,9 @@ def search():
 	youtube = Markup(alias.searchResults('Youtube', alias.youtube, 'Social Media'))
 	linkedin = Markup(alias.searchResults('Linkedin', alias.linkedin, 'Social Media'))
 	github = Markup(alias.searchResults('Github', alias.github, 'Programming'))
-	# TODO: Add Darkweb search functionality
 	tor = Markup(alias.searchResults('Tor', alias.github, 'Dark Web'))
-
 	return render_template('search.html', facebook = facebook, twitter = twitter, youtube=youtube, linkedin =linkedin, github = github, tor = tor)
 
-# There error handlers are for exceptions.
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404

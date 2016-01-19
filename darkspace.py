@@ -7,7 +7,6 @@ import sys
 import requests
 import re
 from bs4 import BeautifulSoup
-#from validate_email import validate_email
 
 '''
 class BackCheck is responsible for taking a user query ex: "John Smith"
@@ -93,18 +92,6 @@ class BackCheck(object):
 		else:
 			print 'Search Fail...'
 
-	# This function gets called in darkmain.py. It is meant to display each item as an HTML <li> for search.html
-	def searchResults(self, socialName, link, category='website'):
-		lowerName = socialName.lower()
-		hrefs = ""
-		for i in link:
-			nLink = "<p class=\"description\"> <a href=\"%s\">%s</a> </p>" % (str(i), str(i))
-			hrefs = str(nLink + hrefs)
-		if not link:
-			hrefs = "<p class=\"description\">Potential items not found or are hidden</p><br>"
-		self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" /><h4><span class=\"name\">%s</span> <span class=\"category\">%s</span></h4><p class=\"description\"> %s</p> </li>" % (lowerName, socialName, category, hrefs)
-		return self.results
-
 	# Scrape all of the profile images on a webpage. 
 	def imageResuts(self, links):
 		pass
@@ -116,6 +103,7 @@ class BackCheck(object):
 		self.youtube = []
 		self.linkedin = []
 		self.github = []
+		self.onions = []
 		for i in usernames:
 			output.append(i)
 		# Check potential social media using the response200() method
@@ -126,9 +114,20 @@ class BackCheck(object):
 			self.response200(self.github, 'http://www.github.com/', i, 'GitHub')
 		return output
 
-	# TODO: Submit API tokens from main conf file
-	def social_media(self):
+	def onion_check(self):
 		pass
+
+	# This function gets called in darkmain.py. It is meant to display each item as an HTML <li> for search.html
+	def searchResults(self, socialName, link, category='website'):
+		lowerName = socialName.lower()
+		hrefs = ""
+		for i in link:
+			nLink = "<p class=\"description\"> <a href=\"%s\">%s</a> </p>" % (str(i), str(i))
+			hrefs = str(nLink + hrefs)
+		if not link:
+			hrefs = "<p class=\"description\">Potential items not found or are hidden</p><br>"
+		self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" /><h4><span class=\"name\">%s</span> <span class=\"category\">%s</span></h4><p class=\"description\"> %s</p> </li>" % (lowerName, socialName, category, hrefs)
+		return self.results
 	
 if __name__ == '__main__':
 	example = BackCheck('John Smith')
