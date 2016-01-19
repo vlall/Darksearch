@@ -7,6 +7,7 @@ import sys
 import requests
 import re
 from bs4 import BeautifulSoup
+from lxml import html
 
 '''
 class BackCheck is responsible for taking a user query ex: "John Smith"
@@ -91,7 +92,8 @@ class BackCheck(object):
 			print 'Potential %s Found...' % socialName 
 		else:
 			print 'Search Fail...'
-
+	def dark200(self, socialList, username):
+		pass
 	# Scrape all of the profile images on a webpage. 
 	def imageResuts(self, links):
 		pass
@@ -103,7 +105,8 @@ class BackCheck(object):
 		self.youtube = []
 		self.linkedin = []
 		self.github = []
-		self.onions = []
+		self.torLinks = []
+		self.torResults = []
 		for i in usernames:
 			output.append(i)
 		# Check potential social media using the response200() method
@@ -112,11 +115,17 @@ class BackCheck(object):
 			self.response200(self.youtube, 'https://www.youtube.com/user/', i, 'YouTube')
 			self.response200(self.linkedin, 'http://www.linkedin.com/in/', i, 'LinkedIn')
 			self.response200(self.github, 'http://www.github.com/', i, 'GitHub')
+			self.onion_check(self.query,i)
+
 		return output
 
-	def onion_check(self):
-		pass
-
+	def onion_check(self, query, alias):
+		page = requests.get('https://ahmia.fi/search/?q=%s' % query)
+		tree = html.fromstring(page.content)
+		results = tree.xpath('.//cite/text()')
+		print results
+		for i in results:
+			self.torLinks.append(i)
 	# This function gets called in darkmain.py. It is meant to display each item as an HTML <li> for search.html
 	def searchResults(self, socialName, link, category='website'):
 		lowerName = socialName.lower()
@@ -128,7 +137,11 @@ class BackCheck(object):
 			hrefs = "<p class=\"description\">Potential items not found or are hidden</p><br>"
 		self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" /><h4><span class=\"name\">%s</span> <span class=\"category\">%s</span></h4><p class=\"description\"> %s</p> </li>" % (lowerName, socialName, category, hrefs)
 		return self.results
-	
+
+	def darkSites(self, torResults):
+		# Make function that prints the Darkweb results organized by query. 
+		pass
+
 if __name__ == '__main__':
 	example = BackCheck('John Smith')
 	print example.output

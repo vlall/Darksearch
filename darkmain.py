@@ -32,7 +32,7 @@ def search():
 	youtube = Markup(alias.searchResults('Youtube', alias.youtube, 'Social Media'))
 	linkedin = Markup(alias.searchResults('Linkedin', alias.linkedin, 'Social Media'))
 	github = Markup(alias.searchResults('Github', alias.github, 'Programming'))
-	tor = Markup(alias.searchResults('Tor', alias.github, 'Dark Web'))
+	tor = Markup(alias.searchResults('Tor', alias.torLinks, 'Dark Web'))
 	return render_template('search.html', facebook = facebook, twitter = twitter, youtube=youtube, linkedin =linkedin, github = github, tor = tor)
 
 @app.errorhandler(404)
@@ -45,6 +45,6 @@ def bad_request(e):
 
 # Main Flask loop
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=int("80"), debug=True, threaded=True)
+    app.run(host='0.0.0.0',port=80, debug=True, threaded=True)
 
 
