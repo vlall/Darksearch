@@ -1,8 +1,12 @@
+#!/usr/bin/python
+
 import json
 import urllib2
 import time
 import sys
 import requests
+import re
+from bs4 import BeautifulSoup
 #from validate_email import validate_email
 
 '''
@@ -14,8 +18,14 @@ class BackCheck(object):
 
 
 	def __init__(self, query, dob=None):
-		# Deal with flags in a query
-		self.query = query
+		# If there's a birthdate in the query, ... 19??. Take it and search usernames
+		regexDob = re.compile('19..')
+		dob = [string for string in query.split() if re.match(regexDob, string)]
+		# Lets only use one birthdate... Change this later
+		if dob:
+			dob = dob[0]
+			query = query.replace(dob,"")
+		print query
 		'''
 			self.sections= query.split(',')
 			for i in self.sections:
@@ -24,13 +34,9 @@ class BackCheck(object):
 			if flagKey == 'user':
 		'''
 		self.dob = dob
-		y = self.nameChk()
-		self.output = self.checkSites(y)
-	'''
-	This function makes potential usernames from the given parameters
-	Usually, the parameters are a string of potential names, 
-	where we test each name out for information below
-	'''
+		self.query = query
+		leads = self.nameChk()
+		self.output = self.checkSites(leads)
 
 	def nameChk(self):
 		usernames = []
@@ -53,6 +59,7 @@ class BackCheck(object):
 
 			# If Date of Birth is a parameter, lets add that as well
 			if self.dob:
+				dob = self.dob
 				dobLast2 = self.dob[-2:]
 				usernames.append(firstName+lastName+dob)
 				usernames.append(firstLetter+lastName+dob)
@@ -60,10 +67,13 @@ class BackCheck(object):
 				usernames.append(firstLetter+lastName+dobLast2)
 
 			# General parameters that should exist in the original query
-			usernames.append(firstLetter+lastName)
-			usernames.append(firstName+lastName)
-			usernames.append(lastName+firstName)
-
+			if nameList>1:
+				usernames.append(firstLetter+lastName)
+				usernames.append(firstName+lastName)
+				usernames.append(lastName+firstName)
+			if nameList<=1:
+				usernames.append(firstName)
+					
 		# Return the list of potential usernames from the above
 		self.usernames = usernames
 		usernames = set(usernames)
@@ -75,11 +85,13 @@ class BackCheck(object):
 		#read_timeout = 5.0
 		website = website + str(username)
 		#Old Request method
-		r = requests.get(website, stream=True)#, timeout=(connect_timeout, read_timeout))
-		#r = requests.head(website, allow_redirects=True)
-		if r.status_code == 200:
+		httpResp = requests.get(website, stream=True)#, timeout=(connect_timeout, read_timeout))
+		#httpResp = requests.head(website,stream=True, allow_redirects=True)
+		if httpResp.status_code == 200:
 			socialList.append(website)
 			print 'Potential %s Found...' % socialName 
+		else:
+			print 'Search Fail...'
 
 	# This function gets called in darkmain.py. It is meant to display each item as an HTML <li> for search.html
 	def searchResults(self, socialName, link, category='website'):
@@ -90,11 +102,10 @@ class BackCheck(object):
 			hrefs = str(nLink + hrefs)
 		if not link:
 			hrefs = "<p class=\"description\">Potential items not found or are hidden</p><br>"
-		self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" /><h4><span class=\"name\">%s</span> <span class=\"category\">%s</span></h4><p class=\"description\"> %s</p></li>" % (lowerName, socialName, category, hrefs)
+		self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" /><h4><span class=\"name\">%s</span> <span class=\"category\">%s</span></h4><p class=\"description\"> %s</p> </li>" % (lowerName, socialName, category, hrefs)
 		return self.results
 
 	# Scrape all of the profile images on a webpage. 
-
 	def imageResuts(self, links):
 		pass
 
@@ -107,14 +118,12 @@ class BackCheck(object):
 		self.github = []
 		for i in usernames:
 			output.append(i)
-
 		# Check potential social media using the response200() method
 			self.response200(self.twitter, 'http://www.twitter.com/', i, 'Twitter')
 			self.response200(self.facebook, 'http://www.facebook.com/', i, 'Facebook')
 			self.response200(self.youtube, 'https://www.youtube.com/user/', i, 'YouTube')
 			self.response200(self.linkedin, 'http://www.linkedin.com/in/', i, 'LinkedIn')
 			self.response200(self.github, 'http://www.github.com/', i, 'GitHub')
-
 		return output
 
 	# TODO: Submit API tokens from main conf file
@@ -122,5 +131,5 @@ class BackCheck(object):
 		pass
 	
 if __name__ == '__main__':
-	x = BackCheck('John Smith')
-	print x.output
+	example = BackCheck('John Smith')
+	print example.output
