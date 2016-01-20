@@ -146,7 +146,7 @@ class BackCheck(object):
 			hrefs = str(nLink + hrefs)
 		if not link:
 			hrefs = "<p class=\"description\">Potential items not found or are hidden</p><br>"
-		self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" /><h4><span class=\"name\">%s</span> <span class=\"category\">%s</span></h4><p class=\"description\"> %s</p> </li>" % (lowerName, socialName, category, hrefs)
+		self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" /><h4><span class=\"name\">%s</span> <span class=\"category\">%s</span></h4><p class=\"description\"> %s <br></p> </li>" % (lowerName, socialName, category, hrefs)
 		return self.results
 
 	# Make function that prints the Darkweb results organized by query. 

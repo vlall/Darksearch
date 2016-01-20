@@ -38,7 +38,8 @@ def search():
 	tor = Markup(alias.searchResults('Tor', alias.torLinks, 'Dark Web'))
 	dur = str(time.time() - start_time)
 	length = str(alias.resultSize())
-	return render_template('search.html', facebook = facebook, twitter = twitter, youtube = youtube, linkedin = linkedin, github = github, tor = tor, time = dur, length = length)
+	query = alias.query
+	return render_template('search.html', facebook = facebook, twitter = twitter, youtube = youtube, linkedin = linkedin, github = github, tor = tor, time = dur, length = length, query = query)
 
 @app.errorhandler(404)
 def page_not_found(e):
