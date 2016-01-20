@@ -45,6 +45,11 @@ class BackCheck(object):
 		usernames = []
 		fullnames = []
 		fullnames.append(self.query)
+
+		# If there's only one name in the list... 
+		if len(fullnames) == 1:
+			return fullnames
+		
 		for i in fullnames:
 			nameList=i.split()
 			firstLetter = nameList[0][0]
