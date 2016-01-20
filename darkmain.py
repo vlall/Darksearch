@@ -24,6 +24,8 @@ def index():
 # Search method that provides us with results
 @app.route("/search", methods=['POST', 'GET'])
 def search():
+	# Time it takes to run
+	start_time = time.time()
 	alias = request.form['search']
 	alias = deFace(alias)
 
@@ -34,7 +36,9 @@ def search():
 	linkedin = Markup(alias.searchResults('Linkedin', alias.linkedin, 'Social Media'))
 	github = Markup(alias.searchResults('Github', alias.github, 'Programming'))
 	tor = Markup(alias.searchResults('Tor', alias.torLinks, 'Dark Web'))
-	return render_template('search.html', facebook = facebook, twitter = twitter, youtube=youtube, linkedin =linkedin, github = github, tor = tor)
+	dur = str(time.time() - start_time)
+	length = str(alias.resultSize())
+	return render_template('search.html', facebook = facebook, twitter = twitter, youtube = youtube, linkedin = linkedin, github = github, tor = tor, time = dur, length = length)
 
 @app.errorhandler(404)
 def page_not_found(e):

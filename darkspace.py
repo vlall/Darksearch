@@ -112,13 +112,14 @@ class BackCheck(object):
 		self.torResults = []
 		for i in usernames:
 			output.append(i)
-		# Check potential social media using the response200() method
+			# Check potential social media using the response200() method
 			self.response200(self.twitter, 'http://twitter.com/', i, 'Twitter')
 			self.response200(self.facebook, 'http://facebook.com/', i, 'Facebook')
 			self.response200(self.youtube, 'https://youtube.com/user/', i, 'YouTube')
 			self.response200(self.linkedin, 'http://linkedin.com/in/', i, 'LinkedIn')
 			self.response200(self.github, 'http://github.com/', i, 'GitHub')
-			self.onion_check(self.query, i)
+		# Search Origininal Query on Dark Web.
+		self.onion_check(self.query, i)
 		return output
 
 	def onion_check(self, query, alias):
@@ -144,6 +145,10 @@ class BackCheck(object):
 	# Make function that prints the Darkweb results organized by query. 
 	def darkSites(self, torResults):
 		pass
+		
+	def resultSize(self):
+		results = len(self.twitter) + len(self.facebook) + len(self.youtube) + len(self.linkedin) + len(self.github) + len(self.torLinks)
+		return results
 
 if __name__ == '__main__':
 	example = BackCheck('John Smith')

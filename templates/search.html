@@ -3,17 +3,10 @@
   <head>
     <meta charset="UTF-8">
     <title>darksearch</title>
-    
-    
     <link rel="stylesheet" href="{{ url_for('static',filename='listjs/css/normalize.css') }}">
-
-    
-        <link rel="stylesheet" href="{{ url_for('static',filename='listjs/css/style.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static',filename='listjs/css/style.css') }}">
   </head>
-
   <body>
-
     <div id="container">
   <div class="example-page">
     <div>
@@ -21,17 +14,16 @@
       <form class="search" action="" method="post">
                 <input class="search" name="search" placeholder="Search again" required/>
     </form>
-
       <a href='/'>
         <img class='main-logo' src="{{ url_for('static',filename='listjs/images/darksearch.png') }}">
         </img>
       </a>
     </h1>
     </div>
-    
-    <div id="main">      
+    <br><br><br>    
+    <div id="main">  
+      <h3>Darksearch found the following <b>{{length}}<b> results in <b>{{time}}<b> seconds...</h3> 
       <div class="c1">
-     <!--   <h2>We found the following results...</h2> -->
         <div id="lovely-things-list">
           <ul class="sort-by">
             <li class="sort btn" data-sort="name">Sort by name</li>
@@ -49,42 +41,26 @@
               <h4><span class="name">Facebook</span> <span class="category">Social Media</span></h4>
             <p class="description">Potential Facebook Links: {{facebook}} </p>
           </li>
-        
           <li>
             <img src="{{ url_for('static',filename='listjs/images/icons/twitter.png') }}" class="thumb" />
             <h4><span class="name">Twitter</span> <span class="category">Social Media</span></h4>
           <p class="description">Potential Twitter Links {{twitter}}</p>
         </li>
         -->
-
-
-
       {{facebook}}
       {{twitter}}
       {{youtube}}
       {{linkedin}}
       {{github}}
       {{tor}}
-
     </ul>
   </div>
 </div>
-
-
-
 </div>
-
 </div> <!-- end of #container -->
-
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-<script src='http://cdnjs.cloudflare.com/ajax/libs/list.js/1.0.0/list.min.js'></script>
-
-        <script src="{{ url_for('static',filename='listjs/js/index.js') }}"></script>
-
-    
-    
-            <p class="note"><b>Note</b>: Visit these pages at your own risk, we take no liability for the content delivered. </p>
-
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/list.js/1.0.0/list.min.js'></script>
+    <script src="{{ url_for('static',filename='listjs/js/index.js') }}"></script>
+    <p class="note"><b>Note</b>: Visit these pages at your own risk, we take no liability for the content delivered. </p>
   </body>
-
 </html>

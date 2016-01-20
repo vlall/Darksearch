@@ -96,7 +96,7 @@ html[xmlns] .clearfix {
 /*I ADDED THIS*/
 .main-logo{float:right;}
 .note{clear:both;}
-
+.results{float: left; colors: #fff; font-size: 14px}
 /* Check Codepen.io for list.js to see original. I changed the lovely-things-list-nthchild to get the borders different shade of grey */
 
 
@@ -169,7 +169,7 @@ h2 strong {
 }
 h3 {
   font-size: 14px;
-  color: #3a3a3a;
+  color: #808080;
   margin-bottom: 8px;
 }
 input {
