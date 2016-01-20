@@ -25,6 +25,8 @@ class BackCheck(object):
 		if dob:
 			dob = dob[0]
 			query = query.replace(dob,"")
+		# Removes all non-alphanumeric, non-white space characters
+		query = re.sub(r'[^a-zA-Z\d\s:]', '', query)
 		print query
 		'''
 		# adding flags.
@@ -145,7 +147,7 @@ class BackCheck(object):
 	# Make function that prints the Darkweb results organized by query. 
 	def darkSites(self, torResults):
 		pass
-		
+
 	def resultSize(self):
 		results = len(self.twitter) + len(self.facebook) + len(self.youtube) + len(self.linkedin) + len(self.github) + len(self.torLinks)
 		return results
