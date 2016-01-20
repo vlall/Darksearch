@@ -18,7 +18,7 @@ class BackCheck(object):
 
 
 	def __init__(self, query, dob=None):
-		# If there's a birthdate in the query, ... 19??. Take it and search usernames
+		# If there's a birthdate in the query, 19??. Take it and search usernames
 		regexDob = re.compile('19..')
 		dob = [string for string in query.split() if re.match(regexDob, string)]
 		# Lets only use one birthdate... Change this later
@@ -27,6 +27,7 @@ class BackCheck(object):
 			query = query.replace(dob,"")
 		print query
 		'''
+		# adding flags.
 			self.sections= query.split(',')
 			for i in self.sections:
 				flagKey = self.sections.split('--')[1]
@@ -92,8 +93,10 @@ class BackCheck(object):
 			print 'Potential %s Found...' % socialName 
 		else:
 			print 'Search Fail...'
+
 	def dark200(self, socialList, username):
 		pass
+
 	# Scrape all of the profile images on a webpage. 
 	def imageResuts(self, links):
 		pass
@@ -115,8 +118,7 @@ class BackCheck(object):
 			self.response200(self.youtube, 'https://youtube.com/user/', i, 'YouTube')
 			self.response200(self.linkedin, 'http://linkedin.com/in/', i, 'LinkedIn')
 			self.response200(self.github, 'http://github.com/', i, 'GitHub')
-			self.onion_check(self.query,i)
-
+			self.onion_check(self.query, i)
 		return output
 
 	def onion_check(self, query, alias):
@@ -126,6 +128,7 @@ class BackCheck(object):
 		print results
 		for i in results:
 			self.torLinks.append('http://%s' % i)
+	
 	# This function gets called in darkmain.py. It is meant to display each item as an HTML <li> for search.html
 	def searchResults(self, socialName, link, category='website'):
 		lowerName = socialName.lower()
@@ -138,8 +141,8 @@ class BackCheck(object):
 		self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" /><h4><span class=\"name\">%s</span> <span class=\"category\">%s</span></h4><p class=\"description\"> %s</p> </li>" % (lowerName, socialName, category, hrefs)
 		return self.results
 
+	# Make function that prints the Darkweb results organized by query. 
 	def darkSites(self, torResults):
-		# Make function that prints the Darkweb results organized by query. 
 		pass
 
 if __name__ == '__main__':

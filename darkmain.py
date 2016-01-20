@@ -1,13 +1,14 @@
+#!/usr/bin/python
+
 import json
 import urllib2
 import time
 import sys
 import requests
-from flask import Flask, url_for, request, render_template, redirect
+from flask import Flask, url_for, request, render_template, redirect, Markup
 from darkspace import BackCheck
-from flask import Markup
 
-# DarkSearch, a search engine running flask that looks at .onion metadata, and compares it with clearnet information. 
+# DarkSearch, a search engine running flask that looks at clearnet information and compates it to .onion metadata. 
 app = Flask(__name__)
 
 # This runs from the darkspace.BackCheck function, and is the search engine
@@ -45,6 +46,6 @@ def bad_request(e):
 
 # Main Flask loop
 if __name__ == '__main__':
-    app.run(host='0.0.0.0',port=80, debug=True, threaded=True)
+    app.run(host='0.0.0.0', port=80, debug=True, threaded=True)
 
 
