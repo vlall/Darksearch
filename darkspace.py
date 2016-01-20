@@ -115,8 +115,11 @@ class BackCheck(object):
 		self.youtube = []
 		self.linkedin = []
 		self.github = []
+		self.instagram = []
+		self.gplus = []
 		self.torLinks = []
 		self.torResults = []
+
 		for i in usernames:
 			output.append(i)
 			# Check potential social media using the response200() method
@@ -125,6 +128,9 @@ class BackCheck(object):
 			self.response200(self.youtube, 'https://youtube.com/user/', i, 'YouTube')
 			self.response200(self.linkedin, 'http://linkedin.com/in/', i, 'LinkedIn')
 			self.response200(self.github, 'http://github.com/', i, 'GitHub')
+			self.response200(self.instagram, 'http://instagram.com/', i, 'Instagram')
+			self.response200(self.gplus, 'http://plus.google.com/+', i, 'Google')
+
 		# Search Origininal Query on Dark Web.
 		self.onion_check(self.query, i)
 		return output
@@ -138,7 +144,7 @@ class BackCheck(object):
 			self.torLinks.append('http://%s' % i)
 	
 	# This function gets called in darkmain.py. It is meant to display each item as an HTML <li> for search.html
-	def searchResults(self, socialName, link, category='website'):
+	def searchResults(self, socialName, image, link, category='website'):
 		lowerName = socialName.lower()
 		hrefs = ""
 		for i in link:
@@ -146,7 +152,7 @@ class BackCheck(object):
 			hrefs = str(nLink + hrefs)
 		if not link:
 			hrefs = "<p class=\"description\">Potential items not found or are hidden</p>"
-		self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" /><h4><span class=\"name\">%s</span> <span class=\"category\">%s</span></h4><p class=\"description\"> %s <br></p> </li>" % (lowerName, socialName, category, hrefs)
+		self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" /><h4><span class=\"name\">%s</span> <span class=\"category\">%s</span></h4><p class=\"description\"> %s <br></p> </li>" % (image, socialName, category, hrefs)
 		return self.results
 
 	# Make function that prints the Darkweb results organized by query. 

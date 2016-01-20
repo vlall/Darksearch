@@ -30,16 +30,18 @@ def search():
 	alias = deFace(alias)
 
 	# Markup lets you embed python strings as HTML code 
-	facebook = Markup(alias.searchResults('Facebook', alias.facebook, 'Social Media'))
-	twitter = Markup(alias.searchResults('Twitter', alias.twitter, 'Social Media'))
-	youtube = Markup(alias.searchResults('Youtube', alias.youtube, 'Social Media'))
-	linkedin = Markup(alias.searchResults('Linkedin', alias.linkedin, 'Social Media'))
-	github = Markup(alias.searchResults('Github', alias.github, 'Programming'))
-	tor = Markup(alias.searchResults('Tor', alias.torLinks, 'Dark Web'))
+	facebook = Markup(alias.searchResults('Facebook-','facebook', alias.facebook, 'Social Media'))
+	twitter = Markup(alias.searchResults('Twitter-','twitter', alias.twitter, 'Social Media'))
+	youtube = Markup(alias.searchResults('YouTube-','youtube', alias.youtube, 'Social Media'))
+	linkedin = Markup(alias.searchResults('Linkedin-','linkedin', alias.linkedin, 'Social Media'))
+	github = Markup(alias.searchResults('Github-','github', alias.github, 'Programming'))
+	instagram = Markup(alias.searchResults('Instagram-','instagram', alias.instagram, 'Social Media'))
+	gplus = Markup(alias.searchResults('Google Plus-', 'google', alias.gplus, 'Social Media'))
+	tor = Markup(alias.searchResults('Tor-', 'tor', alias.torLinks, 'Dark Web'))
 	dur = str(time.time() - start_time)
 	length = str(alias.resultSize())
 	query = alias.query
-	return render_template('search.html', facebook = facebook, twitter = twitter, youtube = youtube, linkedin = linkedin, github = github, tor = tor, time = dur, length = length, query = query)
+	return render_template('search.html', facebook = facebook, twitter = twitter, instagram = instagram, youtube = youtube, linkedin = linkedin, github = github, tor = tor, time = dur, length = length, query = query, gplus = gplus)
 
 @app.errorhandler(404)
 def page_not_found(e):
