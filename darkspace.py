@@ -47,7 +47,7 @@ class BackCheck(object):
 		fullnames.append(self.query)
 
 		# If there's only one name in the list... 
-		if len(fullnames) == 1:
+		if len(self.query.split(' ')) == 1:
 			return fullnames
 		
 		for i in fullnames:
@@ -145,7 +145,7 @@ class BackCheck(object):
 			nLink = "<p class=\"description\"> <a href=\"%s\">%s</a> </p>" % (str(i), str(i))
 			hrefs = str(nLink + hrefs)
 		if not link:
-			hrefs = "<p class=\"description\">Potential items not found or are hidden</p><br>"
+			hrefs = "<p class=\"description\">Potential items not found or are hidden</p>"
 		self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" /><h4><span class=\"name\">%s</span> <span class=\"category\">%s</span></h4><p class=\"description\"> %s <br></p> </li>" % (lowerName, socialName, category, hrefs)
 		return self.results
 
