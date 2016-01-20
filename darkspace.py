@@ -18,6 +18,8 @@ class BackCheck(object):
 
 
 	def __init__(self, query, dob=None):
+		# Removes all non-alphanumeric, non-white space characters
+		query = re.sub(r'[^a-zA-Z\d\s:]', '', query)
 		# If there's a birthdate in the query, 19??. Take it and search usernames
 		regexDob = re.compile('19..')
 		dob = [string for string in query.split() if re.match(regexDob, string)]
@@ -25,8 +27,6 @@ class BackCheck(object):
 		if dob:
 			dob = dob[0]
 			query = query.replace(dob,"")
-		# Removes all non-alphanumeric, non-white space characters
-		query = re.sub(r'[^a-zA-Z\d\s:]', '', query)
 		print query
 		'''
 		# adding flags.
