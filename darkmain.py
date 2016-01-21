@@ -49,10 +49,8 @@ def search():
 	query = alias.query
 	ip = request.environ.get("REMOTE_ADDR")
 	clock = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-	log = '%s\t\t%s\t\t%s\n'%(ip, query, clock)
+	log = '%s\t\t%s\t\t%s'%(clock, ip, query)
 	app.logger.info(log)
-	lock = threading.Lock()
-
 	return render_template('search.html', facebook = facebook, twitter = twitter, instagram = instagram, youtube = youtube, linkedin = linkedin, github = github, tor = tor, time = dur, length = length, query = query, gplus = gplus)
 
 @app.errorhandler(404)
