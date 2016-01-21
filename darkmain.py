@@ -7,6 +7,10 @@ import sys
 import requests
 from flask import Flask, url_for, request, render_template, redirect, Markup
 from darkspace import BackCheck
+import logging
+from logging.handlers import RotatingFileHandler
+import threading
+from time import gmtime, strftime
 
 # DarkSearch, a search engine running flask that looks at clearnet information and compates it to .onion metadata. 
 app = Flask(__name__)
@@ -40,7 +44,20 @@ def search():
 	tor = Markup(alias.searchResults('Tor-', 'tor', alias.torLinks, 'Dark Web'))
 	dur = str(time.time() - start_time)
 	length = str(alias.resultSize())
+
+	# Logging vars
 	query = alias.query
+	ip = request.environ.get("REMOTE_ADDR")
+	clock = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+	log = '%s\t\t%s\t\t%s\n'%(ip, query, clock)
+	app.logger.info(log)
+	lock = threading.Lock()
+
+	# REPLACE THIS WITH A REAL DATABASE LOG...
+	with lock:
+		fd = open('logs/logs.csv','a')
+		fd.write(log)
+		fd.close()	
 	return render_template('search.html', facebook = facebook, twitter = twitter, instagram = instagram, youtube = youtube, linkedin = linkedin, github = github, tor = tor, time = dur, length = length, query = query, gplus = gplus)
 
 @app.errorhandler(404)
@@ -53,6 +70,10 @@ def bad_request(e):
 
 # Main Flask loop
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80, debug=True, threaded=True)
+	handler = RotatingFileHandler('logs/info.log', maxBytes=10000, backupCount=1)
+	handler.setLevel(logging.INFO)
+	app.logger.setLevel(logging.INFO)
+	app.logger.addHandler(handler)
+	app.run(host='0.0.0.0', port=80, debug=True, threaded=True)
 
 

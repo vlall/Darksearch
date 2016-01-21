@@ -8,7 +8,7 @@ import requests
 import re
 from bs4 import BeautifulSoup
 from lxml import html
-
+from flask import request
 '''
 class BackCheck is responsible for taking a user query ex: "John Smith"
 in darkmain.py and retrieving useful information from the clearnet,
@@ -162,7 +162,7 @@ class BackCheck(object):
 	def resultSize(self):
 		results = len(self.twitter) + len(self.facebook) + len(self.youtube) + len(self.linkedin) + len(self.github) + len(self.torLinks)
 		return results
-
+	
 if __name__ == '__main__':
 	example = BackCheck('John Smith')
 	print example.output
