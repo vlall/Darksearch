@@ -1,5 +1,4 @@
 #!/usr/bin/python
-
 import json
 import urllib2
 import time
@@ -43,15 +42,10 @@ def search():
 	gplus = Markup(alias.searchResults('Google Plus-', 'google', alias.gplus, 'Social Media'))
 	tor = Markup(alias.searchResults('Tor-', 'tor', alias.torLinks, 'Dark Web'))
 	dur = str(time.time() - start_time)
-	length = str(alias.resultSize())
-
-	# Logging vars
+	results = str(alias.resultSize())
 	query = alias.query
-	ip = request.environ.get("REMOTE_ADDR")
-	clock = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-	log = '%s\t\t%s\t\t%s'%(clock, ip, query)
-	app.logger.info(log)
-	return render_template('search.html', facebook = facebook, twitter = twitter, instagram = instagram, youtube = youtube, linkedin = linkedin, github = github, tor = tor, time = dur, length = length, query = query, gplus = gplus)
+	make_logs(query, dur, results)
+	return render_template('search.html', facebook=facebook, twitter=twitter, instagram=instagram, youtube=youtube, linkedin=linkedin, github=github, tor=tor, dur=dur, results=results, query=query, gplus=gplus)
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -60,6 +54,13 @@ def page_not_found(e):
 @app.errorhandler(400)
 def bad_request(e):
     return render_template('404.html'), 404
+
+def make_logs(query, dur, results):
+	# Logging vars
+	ip = request.environ.get("REMOTE_ADDR")
+	clock = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+	log = '%s,\t%s,\t%s,\t%s,\tresults:%s'%(clock, ip, query, dur, results)
+	app.logger.info(log)
 
 # Main Flask loop
 if __name__ == '__main__':
