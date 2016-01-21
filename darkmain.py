@@ -53,11 +53,6 @@ def search():
 	app.logger.info(log)
 	lock = threading.Lock()
 
-	# REPLACE THIS WITH A REAL DATABASE LOG...
-	with lock:
-		fd = open('logs/logs.csv','a')
-		fd.write(log)
-		fd.close()	
 	return render_template('search.html', facebook = facebook, twitter = twitter, instagram = instagram, youtube = youtube, linkedin = linkedin, github = github, tor = tor, time = dur, length = length, query = query, gplus = gplus)
 
 @app.errorhandler(404)
