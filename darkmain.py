@@ -59,7 +59,7 @@ def make_logs(query, dur, results):
 	# Logging vars
 	ip = request.environ.get("REMOTE_ADDR")
 	clock = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-	log = '%s,\t%s,\t%s,\t%s,\tresults:%s'%(clock, ip, query, dur, results)
+	log = '%s, %s, %s, %s, results:%s'%(clock, ip, query, dur, results)
 	app.logger.info(log)
 
 # Main Flask loop
