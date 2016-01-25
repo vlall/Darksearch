@@ -58,14 +58,14 @@ class BackCheck(object):
             firstName = nameList[0]
             lastName = nameList[-1]
             lastLetter = nameList[-1][0]
-            # If a middlename exists, lets add it to the mix
+            #  If a middlename exists, lets add it to the mix
             mid = nameList[1:-1]
             if mid:
                 middleName = ', '.join(mid)
                 middleLetter = ', '.join(mid)
                 usernames.append(lastName+middleName+firstName)
                 usernames.append(lastName+middleLetter+firstName)
-            # If Date of Birth is a parameter, lets add that as well
+            #  If Date of Birth is a parameter, lets add that as well
             if self.dob:
                 dob = self.dob
                 dobLast2 = self.dob[-2:]
@@ -73,14 +73,14 @@ class BackCheck(object):
                 usernames.append(firstLetter+lastName+dob)
                 usernames.append(firstName+lastName+dobLast2)
                 usernames.append(firstLetter+lastName+dobLast2)
-            # General parameters that should exist in the original query
+            #  General parameters that should exist in the original query
             if nameList > 1:
                 usernames.append(firstLetter+lastName)
                 usernames.append(firstName+lastName)
                 usernames.append(lastName+firstName)
             if nameList <= 1:
                 usernames.append(firstName)
-        # Return the list of potential usernames from the above
+        #  Return the list of potential usernames from the above
         self.usernames = usernames
         usernames = set(usernames)
         return usernames
@@ -92,9 +92,9 @@ class BackCheck(object):
         website = website + str(username)
         httpResp = requests.get(
                     website, stream=True
-                )
-        # Old Request method
-        # httpResp = requests.head(website,stream=True, allow_redirects=True)
+                ) 
+        #  Old Request method
+        #  httpResp = requests.head(website,stream=True, allow_redirects=True)
         if httpResp.status_code == 200:
             socialList.append(website)
             print 'Potential %s Found...' % socialName
@@ -161,9 +161,7 @@ class BackCheck(object):
             hrefs = str(nLink + hrefs)
         if not link:
             hrefs = "<p class=\"description\">Potential items not found or are hidden</p>"
-        self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" />"
-        "<h4><span class=\"name\">%s</span> <span class=\"category\">%s</span></h4> "
-        "<p class=\"description\"> %s <br></p> </li>" % (image, socialName, category, hrefs)
+        self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" /><h4><span class=\"name\">%s</span> <span class=\"category\">%s</span></h4><p class=\"description\"> %s <br></p> </li>" % (image, socialName, category, hrefs)
         return self.results
 
     # Make function that prints the Darkweb results organized by query.
