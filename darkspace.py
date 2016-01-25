@@ -9,13 +9,13 @@ import re
 from bs4 import BeautifulSoup
 from lxml import html
 from flask import request
-'''
-class BackCheck is responsible for taking a user query ex: "John Smith"
-in darkmain.py and retrieving useful information from the clearnet,
-relating it to scraped .onion sites etc. 
-'''
-class BackCheck(object):
 
+class BackCheck(object):
+	'''
+	BackCheck is responsible for taking a user query ex: "John Smith"
+	in darkmain.py and retrieving useful information from the clearnet,
+	relating it to scraped .onion sites etc. 
+	'''
 
 	def __init__(self, query, dob=None):
 		# Removes all non-alphanumeric, non-white space characters
@@ -28,6 +28,7 @@ class BackCheck(object):
 			dob = dob[0]
 			query = query.replace(dob,"")
 		print query
+
 		'''
 		# adding flags.
 			self.sections= query.split(',')

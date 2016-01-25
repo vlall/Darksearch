@@ -1,4 +1,5 @@
 #!/usr/bin/python
+
 import json
 import urllib2
 import time
@@ -69,5 +70,3 @@ if __name__ == '__main__':
 	app.logger.setLevel(logging.INFO)
 	app.logger.addHandler(handler)
 	app.run(host='0.0.0.0', port=80, debug=True, threaded=True)
-
-
