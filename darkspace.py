@@ -11,11 +11,10 @@ from lxml import html
 from flask import request
 
 class BackCheck(object):
-	'''
-	BackCheck is responsible for taking a user query ex: "John Smith"
-	in darkmain.py and retrieving useful information from the clearnet,
-	relating it to scraped .onion sites etc. 
-	'''
+	"""
+	Take user query ex: "John Smith" in darkmain.py and retrieve useful 
+	information from the clearnet,relating it to scraped .onion sites etc. 
+	"""
 
 	def __init__(self, query, dob=None):
 		# Removes all non-alphanumeric, non-white space characters
@@ -29,14 +28,15 @@ class BackCheck(object):
 			query = query.replace(dob,"")
 		print query
 
-		'''
+		"""
 		# adding flags.
 			self.sections= query.split(',')
 			for i in self.sections:
 				flagKey = self.sections.split('--')[1]
 				flagValue = self.sections.split('--')[0]
 			if flagKey == 'user':
-		'''
+		"""
+
 		self.dob = dob
 		self.query = query
 		leads = self.nameChk()
@@ -88,13 +88,13 @@ class BackCheck(object):
 		usernames = set(usernames)
 		return usernames
 
-	# Check websites if profiles exist, beware of rate limiting, should use APIs for this
 	def response200(self,socialList, website, username, socialName='site'):
-		#connect_timeout = 1
-		#read_timeout = 5.0
+		"""
+		Check if profiles exist, beware of rate limiting.
+		"""
 		website = website + str(username)
 		#Old Request method
-		httpResp = requests.get(website, stream=True)#, timeout=(connect_timeout, read_timeout))
+		httpResp = requests.get(website, stream=True)#, timeout=(connect_timeout=1, read_timeout=5.0))
 		#httpResp = requests.head(website,stream=True, allow_redirects=True)
 		if httpResp.status_code == 200:
 			socialList.append(website)
@@ -105,11 +105,14 @@ class BackCheck(object):
 	def dark200(self, socialList, username):
 		pass
 
-	# Scrape all of the profile images on a webpage. 
 	def imageResuts(self, links):
+		"""Scrape all of the profile images on a webpage."""
 		pass
 
 	def checkSites(self, usernames):
+		"""
+		Save site status to Array.
+		"""
 		output = []
 		self.twitter = []
 		self.facebook = []
@@ -137,6 +140,9 @@ class BackCheck(object):
 		return output
 
 	def onion_check(self, query, alias):
+		"""
+		Temporary: Checks ahmia for onions.
+		"""
 		page = requests.get('https://ahmia.fi/search/?q=%s' % query)
 		tree = html.fromstring(page.content)
 		results = tree.xpath('.//cite/text()')
@@ -144,8 +150,11 @@ class BackCheck(object):
 		for i in results:
 			self.torLinks.append('http://%s' % i)
 	
-	# This function gets called in darkmain.py. It is meant to display each item as an HTML <li> for search.html
 	def searchResults(self, socialName, image, link, category='website'):
+		"""
+		Display each item as an HTML <li> for search.html
+		Gets called in darkmain.py. 
+		"""
 		lowerName = socialName.lower()
 		hrefs = ""
 		for i in link:
@@ -161,8 +170,12 @@ class BackCheck(object):
 		pass
 
 	def resultSize(self):
+		"""
+		Generate Number of results
+		"""
 		results = len(self.twitter) + len(self.facebook) + len(self.youtube) + len(self.linkedin) + len(self.github) + len(self.torLinks)
 		return results
+	
 	
 if __name__ == '__main__':
 	example = BackCheck('John Smith')
