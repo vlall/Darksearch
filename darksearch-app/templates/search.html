@@ -20,7 +20,7 @@
   <div class="example-page">
     <div>
 <h1>
-      <form class="search" action="" method="post">
+      <form class="search" action="{{ url_for('search', page=1) }}" method="post">
                 <input class="search" name="search" placeholder="Search again" required/>
     </form>
       <a href='/'>
@@ -32,7 +32,12 @@
     <br><br>   
     <div id="main"> 
       <br>
+      {% if results == '0' %}
+      <br><br>
+       <h2>Hmmm... Darksearch couldn't find anything. Try being less specific.</h2> 
+      {% else %}
       <h3>We found the following <b>{{results}}</b> results for <b>&quot;{{query}}&quot;</b> in <b>{{dur}}</b> seconds...</h3> 
+      {% endif %}
       <div class="c1">
         <div id="lovely-things-list">
           <ul class="list">
@@ -46,38 +51,44 @@
             <img src="{{ url_for('static',filename='listjs/images/icons/twitter.png') }}" class="thumb" />
             <h4><span class="name">Twitter</span> <span class="category">Social Media</span></h4>
           <p class="description">Potential Twitter Links {{twitter}}</p>
-        </li>
         -->
-      {{tor}}
-      {{facebook}}
-      {{twitter}}
-      {{instagram}}
-      {{gplus}}
-      {{youtube}}
-      {{linkedin}}
-      {{github}}
+      {{engineList}}
     </ul>
-    <!-- FILTERS START-->
+    <!-- FILTERS START
     <ul class="sort-by">
       <li class="sort btn" data-sort="name">Sort by name</li>
       <li class="sort btn" data-sort="category">Sort by category</li>
-    <!--
+
     </ul>
     <ul class="filter">
     -->
+
       <li class="btn" id="filter-none">Show all</li>
-      <li class="btn" id="filter-social-media">Only show Social Media</li>
-      <li class="btn" id="filter-dark-web">Only show Dark Web</li>
+      <li class="btn" id="filter-social-media">Sex</li>
+      <li class="btn" id="filter-dark-web">Bitcoin</li>
+      <li class="btn" id="filter-dark-web">Drugs</li>
+      <li class="btn" id="filter-dark-web">Political</li>
+      <li class="btn" id="filter-dark-web">Blogs</li>
+      <li class="btn" id="filter-dark-web">Hackers</li>
+      <li class="btn" id="filter-dark-web">IDs</li>
+      <li class="btn" id="filter-dark-web">Spam</li>
+
     </ul>
+
+
     <!-- FILTERS END -->
+
   </div>
+      <ul class="pages">
+    {{pageBar}}
 </div>
 </div>
+
 </div> <!-- end of #container -->
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/list.js/1.0.0/list.min.js'></script>
     <script src="{{ url_for('static',filename='listjs/js/index.js') }}"></script>
     <br>
-    <p class="note"><b>Note</b>: Always use Tor at your own risk, we cannot guarantee the safety of any .onion link. <br>For more information, please visit <a href="https://www.torproject.org/">https://www.torproject.org </a></p>
+    <p class="note"><b>Note</b>: We DO NOT host any media, images, or javascript on Darksearch. We take no liability for the content you find. <br>We cannot guarantee the safety of any .onion link. For more information on Tor, please visit <a href="https://www.torproject.org/">https://www.torproject.org </a></p>
   </body>
 </html>

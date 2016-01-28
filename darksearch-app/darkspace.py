@@ -1,14 +1,20 @@
 #!/usr/bin/python
 
+from engine import SearchEngine
 import json
 import urllib2
 import time
-import sys
 import requests
 import re
 from bs4 import BeautifulSoup
 from lxml import html
-from flask import request
+from flask import Flask, url_for, request, render_template, redirect, Markup
+import sys  
+import math
+
+
+reload(sys)  
+sys.setdefaultencoding('utf8')
 
 
 class BackCheck(object):
@@ -30,19 +36,10 @@ class BackCheck(object):
             query = query.replace(dob, "")
         print query
 
-        """
-        # adding flags.
-            self.sections= query.split(',')
-            for i in self.sections:
-                flagKey = self.sections.split('--')[1]
-                flagValue = self.sections.split('--')[0]
-            if flagKey == 'user':
-        """
-
         self.dob = dob
         self.query = query
-        leads = self.nameChk()
-        self.output = self.checkSites(leads)
+      #  leads = self.nameChk()
+      #  self.output = self.checkSites(leads)
 
     def nameChk(self):
         usernames = []
@@ -122,7 +119,6 @@ class BackCheck(object):
         self.gplus = []
         self.torLinks = []
         self.torResults = []
-
         for i in usernames:
             output.append(i)
             # Check potential social media using the response200() method
@@ -133,7 +129,6 @@ class BackCheck(object):
             self.response200(self.github, 'http://github.com/', i, 'GitHub')
             self.response200(self.instagram, 'http://instagram.com/', i, 'Instagram')
             self.response200(self.gplus, 'http://plus.google.com/+', i, 'Google')
-
         # Search Origininal Query on Dark Web.
         self.onion_check(self.query, i)
         return output
@@ -161,12 +156,73 @@ class BackCheck(object):
             hrefs = str(nLink + hrefs)
         if not link:
             hrefs = "<p class=\"description\">Potential items not found or are hidden</p>"
-        self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" /><h4><span class=\"name\">%s</span> <span class=\"category\">%s</span></h4><p class=\"description\"> %s <br></p> </li>" % (image, socialName, category, hrefs)
+        self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" /><h4><span class=\"name\">%s</span> <span class=\"category\">%s</span></h4><p class=\"description\"> %s </p> </li>" % (image, socialName, category, hrefs)
         return self.results
 
-    # Make function that prints the Darkweb results organized by query.
-    def darkSites(self, torResults):
-        pass
+    def darkResults(self, socialName, image, description, href, category='website'):
+        description=str(description)
+        lowerName = socialName.lower()
+        hrefs = ""
+        if description:
+            nLink = "<p class=\"description\">%s...</p>" % (description)
+        if not description:
+            hrefs = "<p class=\"description\">Potential items not found or are hidden</p>"
+        self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" /><h4><span class=\"name\"><a href=../data/%s><br> %s </font></a> </span> <span class=\"category\"><br>updated: %s</span></h4><p class=\"description\"><br>%s </p> </li>" % (image, href, socialName, category, description)
+        return self.results
+    
+    def make_pageBar(self, current, end):
+        start = 1
+        results = ""
+        back = ""
+        next = ""
+        if end >= 5:
+            end = current + 2
+        if current >= 3:
+            start = current - 2
+        if end > self.maxPages:
+             end = self.maxPages
+        for page in range(start, end + 1):
+            if page == current: 
+                line = "<li ><a href=\"../search/%s\" method=\"post\"><font color=\"red\"><b>%s</b></font> </a></li>" % (page, page)
+            else:    
+                line = "<li ><a href=\"../search/%s\" method=\"post\">%s </a></li>" % (page, page)
+            results = results + line
+        if (current - 1) > 0:
+            back = "<li ><a href=\"../search/%s\" method=\"post\"> Prev </a></li>" % (current - 1)
+        if (current + 1) <= end:
+            next = "<li ><a href=\"../search/%s\" method=\"post\"> Next </a></li>" % (current + 1)
+        return (back + results + next)
+
+    # <li ><a href="{{ url_for('search',page=1) }}" method="post"> Last </a></li>
+    #  <li ><a href="{{ url_for('search',page=1) }}" method="post"> Next </a></li>
+
+    def darkSites(self, currentPage, limitResults=10):
+        test = SearchEngine()
+        test.search(self.query)
+        darkList=test.names.tolist()
+        results = test.contentList
+        self.maxPages = int(math.ceil(len(results) / float(limitResults)))
+        self.numDark = len(results)
+        display = test.briefList
+        descTotal = ''
+        #  Display 20 results per page
+        displayStart = (currentPage * limitResults) - limitResults
+        displayEnd = (currentPage * limitResults) 
+        for val in display[int(displayStart):int(displayEnd)]:
+            i = display.index(val)
+            description = Markup(
+            self.darkResults(
+                darkList[i],
+                'tor',
+                unicode(val, errors='ignore'),
+                darkList[i],
+                test.dates.tolist()[i].split()[0]
+                )
+            )
+            descTotal = descTotal + description
+        self.pageBar = Markup(self.make_pageBar(currentPage, self.maxPages))
+        return Markup(descTotal)
+
 
     def resultSize(self):
         """

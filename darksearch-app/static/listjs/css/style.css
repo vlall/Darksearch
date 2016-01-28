@@ -440,6 +440,7 @@ h1 {
 }
 #lovely-things-list {
   margin-bottom: 60px;
+  overflow: hidden;
 }
 #lovely-things-list .thumb {
   width: 60px;
@@ -629,3 +630,20 @@ pre .comment {
   color: grey;
   font-style: italic;
 }
+.pages li {
+  display: inline-block;
+  line-height: 60px;
+    margin-left: 15px;
+}
+.pages {
+  text-align: center;
+  margin: 0 auto; 
+}
+a:link .pages {
+    color: white;
+}
+a:visited .pages {
+    color: purple;
+}
+
+a {text-decoration: none; }
