@@ -11,7 +11,6 @@ from logging.handlers import RotatingFileHandler
 import threading
 from time import gmtime, strftime
 from flask import Flask, url_for, request, render_template, redirect, Markup, session, abort, send_from_directory
-
 import os
 
 app = Flask(__name__)
@@ -31,17 +30,13 @@ def index():
 
 
 @app.route("/search/<int:page>", methods=['POST', 'GET'])
-#@app.route("/search", defaults={'page': 1}, methods=['POST', 'GET'])
 def search(page=1):
-    """
-    Grab clearnet information and compate it to .onion metadata.
-    """
     start_time = time.time()
     try:
-        alias = request.form['search']
+        alias = request.form['search']  
     except:
         try:
-            alias = session['query']
+            alias = session['query']  #  Check cookies.
         except:
             abort(400)
     alias = deFace(alias)
@@ -50,7 +45,7 @@ def search(page=1):
     session['query'] = query
     results = str(alias.numDark)
     pageTotal = str(alias.maxPages)
-    pageBar = alias.pageBar
+    pageBar = alias.pageBar  #  Do not turn to str.
     dur = str(time.time() - start_time)    
     make_logs(query, dur, results, page)
     return render_template(
@@ -90,7 +85,7 @@ def make_logs(query, dur, results, page):
 
 
 if __name__ == '__main__':
-    app.secret_key = os.urandom(24)
+    app.secret_key = os.urandom(24)  #  Creates 24-char cookie
     handler = RotatingFileHandler(
                                 'logs/info.log',
                                 maxBytes=10000,

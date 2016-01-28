@@ -24,13 +24,13 @@ class BackCheck(object):
     """
 
     def __init__(self, query, dob=None):
-        # Removes all non-alphanumeric, non-white space characters
+        #  Removes all non-alphanumeric, non-white space characters
         query = re.sub(r'[^a-zA-Z\d\s:]', '', query)
-        # If there's a birthdate in the query, 19??.
-        # Take it and search usernames
+        #  If there's a birthdate in the query, 19??.
+        #  Take it and search usernames
         regexDob = re.compile('19..')
         dob = [string for string in query.split() if re.match(regexDob, string)]
-        # Lets only use one birthdate... Change this later
+        #  Lets only use one birthdate... Change this later
         if dob:
             dob = dob[0]
             query = query.replace(dob, "")
@@ -192,9 +192,6 @@ class BackCheck(object):
         if (current + 1) <= end:
             next = "<li ><a href=\"../search/%s\" method=\"post\"> Next </a></li>" % (current + 1)
         return (back + results + next)
-
-    # <li ><a href="{{ url_for('search',page=1) }}" method="post"> Last </a></li>
-    #  <li ><a href="{{ url_for('search',page=1) }}" method="post"> Next </a></li>
 
     def darkSites(self, currentPage, limitResults=10):
         test = SearchEngine()
