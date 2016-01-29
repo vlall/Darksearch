@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import os
 import json
 import urllib2
 import time
@@ -10,8 +11,9 @@ import logging
 from logging.handlers import RotatingFileHandler
 import threading
 from time import gmtime, strftime
-from flask import Flask, url_for, request, render_template, redirect, Markup, session, abort, send_from_directory
-import os
+from flask import Flask, url_for, request, render_template
+from flask import redirect, Markup, session, abort, send_from_directory
+
 
 app = Flask(__name__)
 
@@ -33,10 +35,10 @@ def index():
 def search(page=1):
     start_time = time.time()
     try:
-        alias = request.form['search']  
+        alias = request.form['search']
     except:
         try:
-            alias = session['query']  #  Check cookies.
+            alias = session['query']  # Check cookies.
         except:
             abort(400)
     alias = deFace(alias)
@@ -45,8 +47,8 @@ def search(page=1):
     session['query'] = query
     results = str(alias.numDark)
     pageTotal = str(alias.maxPages)
-    pageBar = alias.pageBar  #  Do not turn to str.
-    dur = str(time.time() - start_time)    
+    pageBar = alias.pageBar  # Do not turn to str.
+    dur = str(time.time() - start_time)
     make_logs(query, dur, results, page)
     return render_template(
                             'search.html',
@@ -80,12 +82,19 @@ def make_logs(query, dur, results, page):
     """
     ip = request.environ.get("REMOTE_ADDR")
     clock = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-    log = '%s, %s, %s, %s, results:%s, page:%s' % (clock, ip, query, dur, results, page)
+    log = '%s, %s, %s, %s, results:%s, page:%s' % (
+                                                    clock,
+                                                    ip,
+                                                    query,
+                                                    dur,
+                                                    results,
+                                                    page
+                                                )
     app.logger.info(log)
 
 
 if __name__ == '__main__':
-    app.secret_key = os.urandom(24)  #  Creates 24-char cookie
+    app.secret_key = os.urandom(24)  # Creates 24-char cookie
     handler = RotatingFileHandler(
                                 'logs/info.log',
                                 maxBytes=10000,

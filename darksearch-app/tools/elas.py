@@ -13,7 +13,6 @@ class DarkElastic(object):
     curl -XDELETE 'http://localhost:9200/your_index/'
     """
 
-
     def __init__(self):
         logPath = os.getcwd()+'/../logs/process.csv'
         with open(logPath) as logs:
@@ -38,22 +37,34 @@ class DarkElastic(object):
     def save_json(self, dataframe):
         with open("../logs/process.json", "w") as outfile:
             json.dump(dataframe, outfile, indent=4)
-        print ('Dataframe converted to JSON.')
+        print('Dataframe converted to JSON.')
 
     def ingest_items(self):
         for i in range(0, self.size):
             doc = self.searchIndex[str(i)]
-            res = es.index(index="dark", doc_type='html', id=i, body = doc)
+            res = es.index(
+                            index="dark",
+                            doc_type='html',
+                            id=i,
+                            body=doc
+                )
             print('Ingested document %d...' % i)
         return (res['created'])
 
     #  curl -XGET 'http://localhost:9200/your_index/doc_type/id'
     def get_items(self, i):
-        res = es.get(index="dark", doc_type='html', id=i)
+        res = es.get(
+                        index="dark",
+                        doc_type='html',
+                        id=i
+                )
         return (res['_source'])
 
     def search_index(self, myIndex, myQuery):
-        res = es.search(index=myIndex, body={'query': {'match': {'CONTENT':myQuery}}})
+        res = es.search(
+                        index=myIndex,
+                        body={'query': {'match': {'CONTENT': myQuery}}}
+                )
         hitList = ("Got %d Hits:" % res['hits']['total'])
         for hit in res['hits']['hits']:
             print("%(DATES)s: %(URLS)s" % hit['_source'])
@@ -63,9 +74,9 @@ class DarkElastic(object):
 if __name__ == '__main__':
     es = Elasticsearch()
     test = DarkElastic()
-    ## Turn DataFrame into JSON
-    # test.save_json(test.searchIndex)
-    ## Build your index.
+    #  Turn DataFrame into JSON
+    #  test.save_json(test.searchIndex)
+    #  Build your index.
     #  test.ingest_items()
     es.indices.refresh(index='dark')
-    print test.search_index('dark','look')
+    print test.search_index('dark', 'look')

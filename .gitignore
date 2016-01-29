@@ -60,4 +60,4 @@ target/
 *.json
 *.csv
 data/
-log/
+logs/

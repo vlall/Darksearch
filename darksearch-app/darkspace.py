@@ -23,6 +23,7 @@ class BackCheck(object):
     information from the clearnet,relating it to scraped .onion sites etc.
     """
 
+
     def __init__(self, query, dob=None):
         #  Removes all non-alphanumeric, non-white space characters
         query = re.sub(r'[^a-zA-Z\d\s:]', '', query)
@@ -35,7 +36,6 @@ class BackCheck(object):
             dob = dob[0]
             query = query.replace(dob, "")
         print query
-
         self.dob = dob
         self.query = query
       #  leads = self.nameChk()
@@ -46,7 +46,7 @@ class BackCheck(object):
         fullnames = []
         fullnames.append(self.query)
 
-        # If there's only one name in the list...
+        #  If there's only one name in the list...
         if len(self.query.split(' ')) == 1:
             return fullnames
         for i in fullnames:
@@ -129,7 +129,7 @@ class BackCheck(object):
             self.response200(self.github, 'http://github.com/', i, 'GitHub')
             self.response200(self.instagram, 'http://instagram.com/', i, 'Instagram')
             self.response200(self.gplus, 'http://plus.google.com/+', i, 'Google')
-        # Search Origininal Query on Dark Web.
+        # Search Origininal Query on Dark Web
         self.onion_check(self.query, i)
         return output
 
@@ -160,7 +160,7 @@ class BackCheck(object):
         return self.results
 
     def darkResults(self, socialName, image, description, href, category='website'):
-        description=str(description)
+        description = str(description)
         lowerName = socialName.lower()
         hrefs = ""
         if description:
@@ -169,7 +169,7 @@ class BackCheck(object):
             hrefs = "<p class=\"description\">Potential items not found or are hidden</p>"
         self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" /><h4><span class=\"name\"><a href=../data/%s><br> %s </font></a> </span> <span class=\"category\"><br>updated: %s</span></h4><p class=\"description\"><br>%s </p> </li>" % (image, href, socialName, category, description)
         return self.results
-    
+
     def make_pageBar(self, current, end):
         start = 1
         results = ""
@@ -180,11 +180,11 @@ class BackCheck(object):
         if current >= 3:
             start = current - 2
         if end > self.maxPages:
-             end = self.maxPages
+            end = self.maxPages
         for page in range(start, end + 1):
-            if page == current: 
+            if page == current:
                 line = "<li ><a href=\"../search/%s\" method=\"post\"><font color=\"red\"><b>%s</b></font> </a></li>" % (page, page)
-            else:    
+            else:
                 line = "<li ><a href=\"../search/%s\" method=\"post\">%s </a></li>" % (page, page)
             results = results + line
         if (current - 1) > 0:
@@ -196,7 +196,7 @@ class BackCheck(object):
     def darkSites(self, currentPage, limitResults=10):
         test = SearchEngine()
         test.search(self.query)
-        darkList=test.names.tolist()
+        darkList = test.names.tolist()
         results = test.contentList
         self.maxPages = int(math.ceil(len(results) / float(limitResults)))
         self.numDark = len(results)
@@ -204,22 +204,21 @@ class BackCheck(object):
         descTotal = ''
         #  Display 20 results per page
         displayStart = (currentPage * limitResults) - limitResults
-        displayEnd = (currentPage * limitResults) 
+        displayEnd = (currentPage * limitResults)
         for val in display[int(displayStart):int(displayEnd)]:
             i = display.index(val)
             description = Markup(
-            self.darkResults(
-                darkList[i],
-                'tor',
-                unicode(val, errors='ignore'),
-                darkList[i],
-                test.dates.tolist()[i].split()[0]
-                )
-            )
+                                    self.darkResults(
+                                                        darkList[i],
+                                                        'tor',
+                                                        unicode(val, errors='ignore'),
+                                                        darkList[i],
+                                                        test.dates.tolist()[i].split()[0]
+                                                        )
+                        )
             descTotal = descTotal + description
         self.pageBar = Markup(self.make_pageBar(currentPage, self.maxPages))
         return Markup(descTotal)
-
 
     def resultSize(self):
         """

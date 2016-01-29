@@ -19,32 +19,43 @@ class SearchEngine(object):
     - Then, Tika, NLP algorithms analyze for pandas/pgres ingestion.
     - The query is then passed here and output to search results.
     """
-
     def __init__(self):
         logPath = os.getcwd()+'/logs/process.csv'
         with open(logPath) as logs:
-            self.logs = pd.read_csv(logs, header=None, sep='\t')
+            self.logs = pd.read_csv(
+                                    logs,
+                                    header=None,
+                                    sep='\t',
+                                    names=[
+                                            "DATES",
+                                            "URLS",
+                                            "NAMES",
+                                            "SIZE",
+                                            "LANG",
+                                            "CONTENT"
+                                    ]
+            )
             self.logs.dropna(how='any', inplace=True)
+
     def search(self, query):
         """
         Parse a pandas data structure for searchability
         """
         self.query = query.lower()
-        #  TODO: Fix how to make query not exactly match the searched content (with spaces).
-        content = self.logs[5]
+        #  TODO: Fix how to make query not exactly match the searched content
+        content = self.logs['CONTENT']
         matches = self.logs[content.str.lower().str.contains(query.lower())]
-        #  Columns = [DATE,URL,NAME,SIZE,LANG,CONTENT]
-        self.dates = matches[0]
-        self.urls = matches[1]
-        self.names = matches[2]
-        self.size = matches[3]
-        self.lang = matches[4]
-        self.content = matches[5]
+        self.dates = matches['DATES']
+        self.urls = matches['URLS']
+        self.names = matches['NAMES']
+        self.size = matches['SIZE']
+        self.lang = matches['LANG']
+        self.content = matches['CONTENT']
         self.contentList = self.content.tolist()
         self.briefList = []
         for i in self.contentList:
-            description = i[0:200]  #  Take the first 200 words.
-            description = re.sub(' +',' ', description)  #  Sub extra spaces
+            description = i[0:200]  # Take first 200 words
+            description = re.sub(' +', ' ', description)  # Subtract spaces
             self.briefList.append(description)
 
 
