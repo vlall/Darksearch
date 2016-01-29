@@ -48,7 +48,7 @@ def search(page=1):
     results = str(alias.numDark)
     pageTotal = str(alias.maxPages)
     pageBar = alias.pageBar  # Do not turn to str.
-    dur = str(time.time() - start_time)
+    dur = ('%.3f') % (time.time() - start_time)
     make_logs(query, dur, results, page)
     return render_template(
                             'search.html',
@@ -61,9 +61,10 @@ def search(page=1):
             )
 
 
-@app.route("/data/<onion>", methods=['POST', 'GET'])
+@app.route("/<onion>", methods=['POST', 'GET'])
 def link(onion):
-    return send_from_directory('data', onion)
+    onion = onion.replace('.html', "")
+    return send_from_directory('data', onion+'.html')
 
 
 @app.errorhandler(404)

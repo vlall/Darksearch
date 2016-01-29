@@ -61,9 +61,25 @@ class DarkElastic(object):
         return (res['_source'])
 
     def search_index(self, myIndex, myQuery):
+        stopFilter = ['a', 'an', 'the'] 
         res = es.search(
                         index=myIndex,
-                        body={'query': {'match': {'CONTENT': myQuery}}}
+                        body={
+                                'query' : {
+                                    'match' : {
+                                        'CONTENT' : {
+                                            'query' : myQuery,
+                                            'operator' : 'and'
+
+                                          }
+                                    }
+                                },                                       
+                                "sort" : 
+                                        { "DATES" : {
+                                                    "order" : "asc"
+                                    }
+                                }
+                        }
                 )
         hitList = ("Got %d Hits:" % res['hits']['total'])
         for hit in res['hits']['hits']:
@@ -79,4 +95,4 @@ if __name__ == '__main__':
     #  Build your index.
     #  test.ingest_items()
     es.indices.refresh(index='dark')
-    print test.search_index('dark', 'look')
+    print test.search_index('dark', 'btc or btc')

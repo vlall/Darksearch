@@ -163,11 +163,12 @@ class BackCheck(object):
         description = str(description)
         lowerName = socialName.lower()
         hrefs = ""
+        href = href.replace('.html', "")
         if description:
             nLink = "<p class=\"description\">%s...</p>" % (description)
         if not description:
             hrefs = "<p class=\"description\">Potential items not found or are hidden</p>"
-        self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" /><h4><span class=\"name\"><a href=../data/%s><br> %s </font></a> </span> <span class=\"category\"><br>updated: %s</span></h4><p class=\"description\"><br>%s </p> </li>" % (image, href, socialName, category, description)
+        self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" /><h4><span class=\"name\"><a href=../%s><br> %s </font></a> </span> <span class=\"category\"><br>updated: %s</span></h4><p class=\"description\"><br>%s </p> </li>" % (image, href, socialName, category, description)
         return self.results
 
     def make_pageBar(self, current, end):

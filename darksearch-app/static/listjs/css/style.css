@@ -94,9 +94,17 @@ html[xmlns] .clearfix {
 
 
 /*I ADDED THIS*/
-.main-logo{float:right;}
-.note{clear:both;}
-.results{float: left; colors: #fff; font-size: 14px}
+.main-logo{
+  float:right;
+}
+.note{
+  clear:both;
+}
+.results{
+  float: left;
+/*  color: #fff; */ 
+  font-size: 14px
+}
 /* Check Codepen.io for list.js to see original. I changed the lovely-things-list-nthchild to get the borders different shade of grey */
 
 
@@ -430,7 +438,7 @@ h1 {
   text-shadow: #262729 0 -1px 0;
   text-align: center;
   color: #999;
-  font-size: 14px;
+  font-size: 11px;
 }
 .note b {
   color: #eee;
@@ -439,7 +447,7 @@ h1 {
   color: #eee;
 }
 #lovely-things-list {
-  margin-bottom: 60px;
+  margin-bottom: 40px;
   overflow: hidden;
 }
 #lovely-things-list .thumb {
@@ -646,4 +654,10 @@ a:visited .pages {
     color: purple;
 }
 
-a {text-decoration: none; }
+a {
+  text-decoration: none; 
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    black;
+     opacity: .8 !important;
+}

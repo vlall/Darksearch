@@ -21,7 +21,7 @@
     <div>
 <h1>
       <form class="search" action="{{ url_for('search', page=1) }}" method="post">
-                <input class="search" name="search" placeholder="Search again" required/>
+                <input class="search" name="search" placeholder="{{query}}" required/>
     </form>
       <a href='/'>
         <img class='main-logo' src="{{ url_for('static',filename='listjs/images/darksearch.png') }}">
@@ -36,7 +36,7 @@
       <br><br>
        <h2>Hmmm... Darksearch couldn't find anything. Try being less specific.</h2> 
       {% else %}
-      <h3>We found the following <b>{{results}}</b> results for <b>&quot;{{query}}&quot;</b> in <b>{{dur}}</b> seconds...</h3> 
+      <h3>We found the following <b>{{results}}</b> results across <b>{{pageTotal}}</b> pages in <b>{{dur}}</b> seconds...</h3> 
       {% endif %}
       <div class="c1">
         <div id="lovely-things-list">
@@ -64,7 +64,7 @@
     -->
 
       <li class="btn" id="filter-none">Show all</li>
-      <li class="btn" id="filter-social-media">Sex</li>
+      <li class="btn" id="filter-dark-web">Sex</li>
       <li class="btn" id="filter-dark-web">Bitcoin</li>
       <li class="btn" id="filter-dark-web">Drugs</li>
       <li class="btn" id="filter-dark-web">Political</li>
@@ -89,6 +89,6 @@
     <script src='http://cdnjs.cloudflare.com/ajax/libs/list.js/1.0.0/list.min.js'></script>
     <script src="{{ url_for('static',filename='listjs/js/index.js') }}"></script>
     <br>
-    <p class="note"><b>Note</b>: We DO NOT host any media, images, or javascript on Darksearch. We take no liability for the content you find. <br>We cannot guarantee the safety of any .onion link. For more information on Tor, please visit <a href="https://www.torproject.org/">https://www.torproject.org </a></p>
+    <p class="note"><b>Note</b>: We DO NOT host any media, images, or javascript on Darksearch and take no liability for the content may you find. <br>We cannot guarantee the safety of any .onion link. For more information on Tor, please visit <a href="https://www.torproject.org/">https://www.torproject.org </a></p>
   </body>
 </html>
