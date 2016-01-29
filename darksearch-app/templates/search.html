@@ -2,7 +2,7 @@
 <html >
   <head>
     <meta charset="UTF-8">
-    <title>darksearch</title>
+    <title>Darksearch</title>
     <link rel="stylesheet" href="{{ url_for('static',filename='listjs/css/normalize.css') }}">
     <link rel="stylesheet" href="{{ url_for('static',filename='listjs/css/style.css') }}">
     <link rel="shortcut icon" type="image/x-icon" href= "{{ url_for('static',filename='front/images/favicon.ico') }}">
@@ -21,7 +21,7 @@
     <div>
 <h1>
       <form class="search" action="{{ url_for('search', page=1) }}" method="post">
-                <input class="search" name="search" placeholder="{{query}}" required/>
+                <input class="search" autocomplete='on' name="search" value="{{query}}" required/>
     </form>
       <a href='/'>
         <img class='main-logo' src="{{ url_for('static',filename='listjs/images/darksearch.png') }}">
@@ -36,7 +36,7 @@
       <br><br>
        <h2>Hmmm... Darksearch couldn't find anything. Try being less specific.</h2> 
       {% else %}
-      <h3>We found the following <b>{{results}}</b> results across <b>{{pageTotal}}</b> pages in <b>{{dur}}</b> seconds...</h3> 
+      <h3>Darksearch found the following <b>{{results}}</b> results across <b>{{pageTotal}}</b> pages in <b>{{dur}}</b> seconds...</h3> 
       {% endif %}
       <div class="c1">
         <div id="lovely-things-list">
@@ -89,6 +89,6 @@
     <script src='http://cdnjs.cloudflare.com/ajax/libs/list.js/1.0.0/list.min.js'></script>
     <script src="{{ url_for('static',filename='listjs/js/index.js') }}"></script>
     <br>
-    <p class="note"><b>Note</b>: We DO NOT host any media, images, or javascript on Darksearch and take no liability for the content may you find. <br>We cannot guarantee the safety of any .onion link. For more information on Tor, please visit <a href="https://www.torproject.org/">https://www.torproject.org </a></p>
+    <p class="note"><b>Note</b>: We DO NOT host any media, images, or javascript on Darksearch and take no liability for the content you may find. <br>We cannot guarantee the safety of any .onion link. For more information on Tor, please visit <a href="https://www.torproject.org/">https://www.torproject.org </a></p>
   </body>
 </html>
