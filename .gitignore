@@ -56,7 +56,8 @@ docs/_build/
 # PyBuilder
 target/
 
-#My Additions
+#My Additions for Data
+*.json
 *.csv
 data/
 log/
