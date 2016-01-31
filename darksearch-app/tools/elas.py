@@ -135,15 +135,25 @@ class DarkElastic(object):
         else:
             start = pos - n
             end = pos + n
+        #  Find Nearest period to end sentence...
+        #  try:
+        #      endSentence = content.index(".")
+        #      if endSentence < (start+40):
+        #          end = endSentence
+        #  except:
+        #     pass
         content = content[start:end]
         brief = " ".join(content)
-        wrap = '<font color=\'yellow\'>'+query+'</font>'
+        if len(brief) >= 4000:
+            brief = brief[0:3000]
+        wrap = '<mark><font color=\'black\'>'+query+'</font></mark>'
         brief = brief.replace(query, wrap)
         return brief
 
 
 if __name__ == '__main__':
     test = DarkElastic()
+    self.jsonPath = "..logs/process.json"
     ###  Build your index.
     #  test.ingest_items()
     es.indices.refresh(index='dark')

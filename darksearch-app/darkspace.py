@@ -1,6 +1,5 @@
 #!/usr/bin/python
 
-from engine import SearchEngine
 from tools import DarkElastic
 import json
 import urllib2
@@ -91,20 +90,13 @@ class BackCheck(object):
         return (back + results + next)
 
     def darkSites(self, currentPage, limitResults=10):
-        #  Using Engine.
-        #test = SearchEngine()
-        #test.search(self.query)
-        #darkList = test.names.tolist()
-        #results = test.contentList
-        #display = test.briefList
-        #self.numDark = len(results)
-        #  Using ElasticSearch
+        #  Start ElasticSearch
         elastic = DarkElastic()
         elastic.search_index('dark', self.query)
         self.numDark = elastic.size
         self.maxPages = math.ceil((self.numDark) / float(limitResults))
         self.maxPages  = int(self.maxPages)
-        #  Display 10 results per page
+        #  Displays 10 results per page
         displayStart = int((currentPage * limitResults) - limitResults)
         displayEnd = int((currentPage * limitResults))
         elastic.search_index('dark', self.query, displayStart, limitResults)

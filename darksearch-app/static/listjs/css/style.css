@@ -478,8 +478,9 @@ h1 {
   margin-bottom: 6px;
 }
 #lovely-things-list p {
-  font: normal 14px/1.3 'helvetica neue', helvetica, arial;
-  color: #aaa;
+  /** font: normal 14px 'helvetica neue', helvetica, arial; **/
+  font-size: 13px;
+  color: #dddddd;
   text-align: left;
 }
 #lovely-things-list .sort-by {

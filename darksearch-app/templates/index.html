@@ -25,10 +25,10 @@
       }
       .search button {
         position: relative;float: right;border: 0;padding: 0;cursor: pointer;height: 40px;width: 60px;color: #fff;
-        background: #1e2d3d;border-left: 1px solid #444;border-radius: 0;
+        background: #00688B;border-left: 1px solid #444;border-radius: 0;
       }   
       .search button:hover {
-        background: #334c66;transition-delay:.08s;
+        background: #007ba5;transition-delay:.1s;
       }
       .search button:active {
         box-shadow: 0px 0px 12px 0px rgba(225, 225, 225, 1);
@@ -40,12 +40,14 @@
         display: block; margin: auto ; padding-top: 170px;
       }
       .glowing-border {
-            border-radius: 0px;
+          outline: none;
+          border-color: #6699cc;
+          box-shadow: 0 0 5px #6699cc;
       }
       .glowing-border:focus { 
           outline: none;
           border-color: #6699cc;
-          box-shadow: 0 0 5px #6699cc;
+          box-shadow: 0 0 10px #6699cc;
       }
     </style>
     <script src="{{ url_for('static',filename='front/js/prefixfree.min.js') }}"></script>
