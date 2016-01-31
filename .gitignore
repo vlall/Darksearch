@@ -61,3 +61,4 @@ target/
 *.csv
 data/
 logs/
+.DS_Store
