@@ -24,7 +24,7 @@ class DarkElastic(object):
         """
         Take logFile, open as Dataframe, covert to JSON, Save JSON.
         """
-        self.logPath = os.getcwd()+'logs/process.csv'
+        self.logPath = os.getcwd()+'/../logs/process.csv'
         with open(self.logPath) as logs:
             searchIndex = pd.read_csv(
                                         logs,
@@ -152,12 +152,12 @@ class DarkElastic(object):
 
     def runSetup(self):
         self.pandas_to_json()
-        self.save_json()   
+        self.save_json(self.searchIndex)   
 
 if __name__ == '__main__':
-    test = DarkElastic("..logs/process.json")
-    test.runSetup()
+      test = DarkElastic("../logs/process.json")
+      test.runSetup()
     ###  Build your index.
-    #  test.ingest_items()
-    # es.indices.refresh(index='dark')
-    # print test.search_index('dark', 'cocaine', 15, 10)
+      test.ingest_items()
+      es.indices.refresh(index='dark')
+      print test.search_index('dark', 'cocaine', 15, 10)
