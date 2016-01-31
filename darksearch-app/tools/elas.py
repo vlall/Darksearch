@@ -4,18 +4,26 @@ import os
 import pandas as pd
 import json
 from elasticsearch import Elasticsearch
-
+import requests
 
 class DarkElastic(object):
-    """
-    Take a DataFrame and turn it into an ElasticSearch Index.
-    Need to delete an index?
-    curl -XDELETE 'http://localhost:9200/your_index/'
-    """
 
     def __init__(self):
-        logPath = os.getcwd()+'/../logs/process.csv'
-        with open(logPath) as logs:
+        """
+        Load JSON.
+        """
+        self.jsonPath = os.getcwd()+"/../logs/process.json"
+        with open(self.jsonPath) as searchIndex:
+            searchIndex = json.load(searchIndex)
+        self.size = len(searchIndex.keys())
+        self.searchIndex = searchIndex
+
+    def pandas_to_json(self):
+        """
+        Take logFile, open as Dataframe, covert to JSON, Save JSON.
+        """
+        self.logPath = os.getcwd()+'/../logs/process.csv'
+        with open(self.logPath) as logs:
             searchIndex = pd.read_csv(
                                         logs,
                                         header=None,
@@ -33,9 +41,10 @@ class DarkElastic(object):
         searchIndex = searchIndex.to_json(orient='index')
         searchIndex = json.loads(searchIndex)
         self.searchIndex = searchIndex
+        self.save_json(searchIndex)
 
     def save_json(self, dataframe):
-        with open("../logs/process.json", "w") as outfile:
+        with open(self.jsonPath, "w") as outfile:
             json.dump(dataframe, outfile, indent=4)
         print('Dataframe converted to JSON.')
 
@@ -51,7 +60,6 @@ class DarkElastic(object):
             print('Ingested document %d...' % i)
         return (res['created'])
 
-    #  curl -XGET 'http://localhost:9200/your_index/doc_type/id'
     def get_items(self, i):
         res = es.get(
                         index="dark",
@@ -64,7 +72,6 @@ class DarkElastic(object):
         stopFilter = ['a', 'an', 'the'] 
         res = es.search(
                         index=myIndex,
-
                         body={
                                 "from": start,
                                 "size": end,
@@ -73,27 +80,33 @@ class DarkElastic(object):
                                             "default_field" : "CONTENT",
                                             "query" : myQuery
                                             }
-                                }                                       
-                                "sort" : 
-                                        { "URLS" : {
-                                                    "order" : "asc"
+                                },
+                                "sort" : {
+                                            "_score" : {
+                                            "order" : "desc"
                                     }
-                                }
-
+                                },
                         }
-                )
+        )
         hitList = ("Got %d Hits:" % res['hits']['total'])
         for hit in res['hits']['hits']:
             print("%(DATES)s: %(URLS)s" % hit['_source'])
         return hitList
+    
+    def delete_deuplicates(self, i):
+        pass
 
+    def delete_all(self, index='dark,'):
+        """
+        Runs $ curl -XDELETE 'http://localhost:9200/your_index/'
+        """
+        r = requests.delete('http://localhost:9200/%s' % (index))
+        print('Index %s deleted.' % index)
 
 if __name__ == '__main__':
     es = Elasticsearch()
     test = DarkElastic()
-    #  Turn DataFrame into JSON
-    #  test.save_json(test.searchIndex)
-    #  Build your index.
+    ###  Build your index.
     #  test.ingest_items()
     es.indices.refresh(index='dark')
-    print test.search_index('dark', 'testing', 0, 10)
+    print test.search_index('dark', 'yes', 0, 10)

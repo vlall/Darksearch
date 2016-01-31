@@ -21,12 +21,11 @@
     <div>
 <h1>
       <form class="search" action="{{ url_for('search', page=1) }}" method="post">
-                <input class="search" autocomplete='on' name="search" value="{{query}}" required/>
-    </form>
+      <input class="search" autocomplete='on' name="search" value="{{query}}" required/>
+      </form>
+
       <a href='/'>
-        <img class='main-logo' src="{{ url_for('static',filename='listjs/images/darksearch.png') }}">
-        </img>
-      </a>
+        <img class='main-logo' src="{{ url_for('static',filename='listjs/images/darksearch.png') }}"></img></a>
     </h1>
     </div>
     <br><br>   
@@ -64,7 +63,6 @@
     -->
 
       <li class="btn" id="filter-none">Show all</li>
-      <li class="btn" id="filter-dark-web">Sex</li>
       <li class="btn" id="filter-dark-web">Bitcoin</li>
       <li class="btn" id="filter-dark-web">Drugs</li>
       <li class="btn" id="filter-dark-web">Political</li>
@@ -72,6 +70,9 @@
       <li class="btn" id="filter-dark-web">Hackers</li>
       <li class="btn" id="filter-dark-web">IDs</li>
       <li class="btn" id="filter-dark-web">Spam</li>
+      <li class="btn" id="filter-dark-web">Sex</li>
+      <li class="btn" id="filter-dark-web">Weapons</li>
+
 
     </ul>
 
