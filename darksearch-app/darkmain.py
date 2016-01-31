@@ -13,10 +13,11 @@ import threading
 from time import gmtime, strftime
 from flask import Flask, url_for, request, render_template
 from flask import redirect, Markup, session, abort, send_from_directory
+from flask_limiter import Limiter
 
 
 app = Flask(__name__)
-
+limiter = Limiter(app, global_limits=["1000 per day", "200 per hour", "120 per minute",])
 
 def deFace(alias):
     """
@@ -27,11 +28,13 @@ def deFace(alias):
 
 
 @app.route("/", methods=['POST', 'GET'])
+@limiter.limit("3/second")
 def index():
     return render_template('index.html')
 
 
 @app.route("/search/<int:page>", methods=['POST', 'GET'])
+@limiter.limit("3/second")
 def search(page=1):
     start_time = time.time()
     try:
@@ -75,6 +78,10 @@ def page_not_found(e):
 @app.errorhandler(400)
 def bad_request(e):
     return render_template('400.html'), 400
+
+@app.errorhandler(429)
+def ratelimit_handler(e):
+    return render_template('429.html', notice=e.description), 429
 
 
 def make_logs(query, dur, results, page):
