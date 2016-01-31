@@ -10,11 +10,11 @@ es = Elasticsearch()
 
 class DarkElastic(object):
 
-    def __init__(self):
+    def __init__(self, jsonPath="logs/process.json"):
         """
         Load JSON.
         """
-        self.jsonPath = "logs/process.json"
+        self.jsonPath = jsonPath
         with open(self.jsonPath) as searchIndex:
             searchIndex = json.load(searchIndex)
         self.size = 0
@@ -150,11 +150,14 @@ class DarkElastic(object):
         brief = brief.replace(query, wrap)
         return brief
 
+    def runSetup(self):
+        self.pandas_to_json()
+        self.save_json()   
 
 if __name__ == '__main__':
-    test = DarkElastic()
-    self.jsonPath = "..logs/process.json"
+    test = DarkElastic("..logs/process.json")
+    test.runSetup()
     ###  Build your index.
     #  test.ingest_items()
-    es.indices.refresh(index='dark')
-    print test.search_index('dark', 'cocaine', 15, 10)
+    # es.indices.refresh(index='dark')
+    # print test.search_index('dark', 'cocaine', 15, 10)
