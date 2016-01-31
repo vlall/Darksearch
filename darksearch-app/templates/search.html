@@ -19,13 +19,12 @@
     <div id="container">
   <div class="example-page">
     <div>
-<h1>
+    <h1>
       <form class="search" action="{{ url_for('search', page=1) }}" method="post">
       <input class="search" autocomplete='on' name="search" value="{{query}}" required/>
       </form>
-
       <a href='/'>
-        <img class='main-logo' src="{{ url_for('static',filename='listjs/images/darksearch.png') }}"></img></a>
+      <img class='main-logo' src="{{ url_for('static',filename='listjs/images/darksearch.png') }}"></img></a>
     </h1>
     </div>
     <br><br>   
@@ -61,7 +60,6 @@
     </ul>
     <ul class="filter">
     -->
-
       <li class="btn" id="filter-none">Show all</li>
       <li class="btn" id="filter-dark-web">Bitcoin</li>
       <li class="btn" id="filter-dark-web">Drugs</li>
@@ -72,19 +70,13 @@
       <li class="btn" id="filter-dark-web">Spam</li>
       <li class="btn" id="filter-dark-web">Sex</li>
       <li class="btn" id="filter-dark-web">Weapons</li>
-
-
     </ul>
-
-
     <!-- FILTERS END -->
-
   </div>
       <ul class="pages">
     {{pageBar}}
 </div>
 </div>
-
 </div> <!-- end of #container -->
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/list.js/1.0.0/list.min.js'></script>

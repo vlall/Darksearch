@@ -10,26 +10,45 @@
     <link rel="shortcut icon" type="image/x-icon" href= "{{ url_for('static',filename='front/images/favicon.ico') }}">
     <style>
       /* NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! */
-      body {background-color: #000}
-      .search {width: 500px;height: 40px;margin: 50px auto;background: #444;background: rgba(0,0,0,.2);border-radius:  0px;border: 1px solid #444}
-      .search input {width: 430px;padding: 10px 5px;float: left;color: #ccc;border: 0;background: transparent;border-radius: 3px 0 0 3px;}
-      .search input:focus {outline: 0;background:transparent;}
-      .search button {position: relative;float: right;border: 0;padding: 0;cursor: pointer;height: 40px;width: 60px;color: #fff;background: #1e2d3d;border-left: 1px solid #444;border-radius: 0;}   
-      .search button:hover {background: #334c66;transition-delay:.08s;}
-      .search button:active {box-shadow: 0px 0px 12px 0px rgba(225, 225, 225, 1);}
-      .search button:focus {outline: 0;}
-      .logo {  display: block; margin: auto ; padding-top: 170px;}
+      body {
+        background-color: #000
+      }
+      .search {
+        width: 500px;height: 40px;margin: 50px auto;background: #444;background: rgba(0,0,0,.2);border-radius: 0px;
+        border: 1px solid #444
+      }
+      .search input {
+        width: 430px;padding: 10px 5px;float: left;color: #ccc;border: 0;background: transparent;border-radius: 3px 0 0 3px;
+      }
+      .search input:focus {
+        outline: 0;background:transparent;
+      }
+      .search button {
+        position: relative;float: right;border: 0;padding: 0;cursor: pointer;height: 40px;width: 60px;color: #fff;
+        background: #1e2d3d;border-left: 1px solid #444;border-radius: 0;
+      }   
+      .search button:hover {
+        background: #334c66;transition-delay:.08s;
+      }
+      .search button:active {
+        box-shadow: 0px 0px 12px 0px rgba(225, 225, 225, 1);
+      }
+      .search button:focus {
+        outline: 0;
+      }
+      .logo { 
+        display: block; margin: auto ; padding-top: 170px;
+      }
       .glowing-border {
             border-radius: 0px;
-        }
-        .glowing-border:focus { 
-            outline: none;
-            border-color: #6699cc;
-            box-shadow: 0 0 5px #6699cc;
-        }
+      }
+      .glowing-border:focus { 
+          outline: none;
+          border-color: #6699cc;
+          box-shadow: 0 0 5px #6699cc;
+      }
     </style>
     <script src="{{ url_for('static',filename='front/js/prefixfree.min.js') }}"></script>
-
     <!--START GOOGLE ANALYTICS--> 
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -40,17 +59,14 @@
       ga('create', 'UA-72027148-1', 'auto', {'allowLinker': true});
       ga)'require', 'linker');
       ga('linker:autoLink', ['vish.al'] );
-
     </script>
     <!--END GOOGLE ANALYTICS-->
   </head>
-
   <body>
     <img class = 'logo' src="{{ url_for('static',filename='front/images/darksearch.png') }}"></img>
     <form class="search" action="{{ url_for('search', page=1) }}" method="post">
-    <input class="glowing-border" name="search" type="search" placeholder="Search here..." required>
-    <button type="submit"><img src="{{ url_for('static',filename='etc/search.png') }}" style="width:20px;height:20px;">
-</button>
+      <input class="glowing-border" name="search" type="search" placeholder="Search here..." required>
+      <button type="submit"><img src="{{ url_for('static',filename='etc/search.png') }}" style="width:20px;height:20px;"></button>
     </form>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>  
   </body>

@@ -465,7 +465,7 @@ h1 {
   padding: 20px;
 }
 #lovely-things-list li:nth-child(n) {
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: #101010  ;
   border: solid 1px rgba(255, 255, 255, 0.15);
   border-radius: 10px;
 }
