@@ -30,7 +30,9 @@ class Tikify:
 		self.content = content.replace('\"', '')
 		rx = re.compile('\W+')
 		self.content = rx.sub(' ', self.content).strip()
-		#  self.title = self.metadata['title']
+		self.title = self.metadata['title']
+		if self.title == None:
+			self.title = 'Untitled'
 		#  self.type = self.metadata['Content-Type-Hint']
 		#  self.name = self.metadata['resourceName']
 		#  lanFix = re.sub('[\s+]', '', content)
@@ -44,8 +46,8 @@ class Tikify:
 
 
 if __name__ == "__main__":
-	dataPath = os.getcwd()+'/data/'
-	logPath = os.getcwd()+'/logs/scrape.log'
+	dataPath = os.getcwd()+'/../data/'
+	logPath = os.getcwd()+'/../logs/scrape.log'
 	print 'Started...'
 	with open(logPath) as logs:
 		print 'Reading csv...'
@@ -60,10 +62,11 @@ if __name__ == "__main__":
 			size = str(logs['SIZE'][i])
 			try:
 				output = Tikify(dataPath + name)
-				content = str(output.content.encode('UTF-8'))
+				content = unicode(output.content)
+				title = unicode(output.title)
 				lang = str(output.lang)
 				print ('Appended line %d...') % i 
-				with open("logs/process.csv", "a") as log:
-					log.write(('%s\t%s\t%s\t%s\t%s\t%s\n') % (date, url, name, size, lang, content))     
+				with open("../logs/process2.csv", "a") as log:
+					log.write(('%s\t%s\t%s\t%s\t%s\t%s\n%s') % (date, url, name, size, lang, title, content))     
 			except Exception:
 				continue
