@@ -6,8 +6,6 @@ import urllib2
 import time
 import requests
 import re
-from bs4 import BeautifulSoup
-from lxml import html
 from flask import Flask, url_for, request, render_template, redirect, Markup
 import sys  
 import math

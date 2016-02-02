@@ -14,7 +14,7 @@ from time import gmtime, strftime
 from flask import Flask, url_for, request, render_template
 from flask import redirect, Markup, session, abort, send_from_directory
 from flask_limiter import Limiter
-
+import gc
 
 app = Flask(__name__)
 limiter = Limiter(app, global_limits=["2000 per day", "400 per hour", "60 per minute",])
@@ -117,3 +117,4 @@ if __name__ == '__main__':
             debug=True,
             threaded=True
     )
+    gc.collect()

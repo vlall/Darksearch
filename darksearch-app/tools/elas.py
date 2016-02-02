@@ -18,8 +18,9 @@ class DarkElastic(object):
         with open(self.jsonPath) as searchIndex:
             searchIndex = json.load(searchIndex)
         self.size = 0
-        self.searchIndex = searchIndex
-
+        searchIndex.close()
+	self.searchIndex = searchIndex
+	
     def pandas_to_json(self):
         """
         Take logFile, open as Dataframe, covert to JSON, Save JSON.
