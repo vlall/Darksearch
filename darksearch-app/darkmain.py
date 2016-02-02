@@ -17,7 +17,7 @@ from flask_limiter import Limiter
 
 
 app = Flask(__name__)
-limiter = Limiter(app, global_limits=["1000 per day", "200 per hour", "120 per minute",])
+limiter = Limiter(app, global_limits=["2000 per day", "400 per hour", "60 per minute",])
 
 def deFace(alias):
     """

@@ -106,11 +106,12 @@ class BackCheck(object):
         descTotal = ''
         self.pageBar = Markup(self.make_pageBar(currentPage, self.maxPages))
         for val in display:
+            cat = elastic.check_cat(val)
             i = display.index(val)
             description = Markup(
                                     self.darkResults(
                                                         darkList[i],
-                                                        'tor',
+                                                        cat,
                                                         val,
                                                         darkList[i],
                                                         elastic.datesList[i]

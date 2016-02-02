@@ -123,8 +123,9 @@ class DarkElastic(object):
         Obtain the brief description that shows up in search
         """
         query = query.lower()
-        content = content.lower()
-        content = content.split()
+        queryList = query.split()
+        queryList.sort(key = len)
+        content = content.lower().split()
         try:
             pos = content.index(query)
         except ValueError:
@@ -143,16 +144,23 @@ class DarkElastic(object):
         #  except:
         #     pass
         content = content[start:end]
+        if len(content) >= 500:
+            content = content[0:400]
+        for query in queryList:
+            wrap = '<font color=\'yellow\'><b>'+query+'</b></font>'
+            try:
+                content[content.index(query)] = wrap
+            except:
+                pass
         brief = " ".join(content)
-        if len(brief) >= 4000:
-            brief = brief[0:3000]
-        wrap = '<mark><font color=\'black\'>'+query+'</font></mark>'
-        brief = brief.replace(query, wrap)
         return brief
 
     def runSetup(self):
         self.pandas_to_json()
         self.save_json(self.searchIndex)   
+
+    def check_cat(self, description):
+        return 'tor'
 
 if __name__ == '__main__':
       test = DarkElastic("../logs/process.json")
