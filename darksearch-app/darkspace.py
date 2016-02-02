@@ -7,26 +7,23 @@ import time
 import requests
 import re
 from flask import Flask, url_for, request, render_template, redirect, Markup
-import sys  
+import sys
 import math
+import gc
 
-
-reload(sys)  
+reload(sys)
 sys.setdefaultencoding('utf8')
 
 
 class BackCheck(object):
     """
-    Take user query ex: "John Smith" in darkmain.py and retrieve useful
-    information from the clearnet,relating it to scraped .onion sites etc.
+    Search .onions for keywords
     """
-
 
     def __init__(self, query, dob=None):
         #  Removes all non-alphanumeric, non-white space characters
         query = re.sub(r'[^a-zA-Z\d\s:]', '', query)
         self.query = query
-
 
     def dark200(self, socialList, username):
         pass
@@ -89,11 +86,12 @@ class BackCheck(object):
 
     def darkSites(self, currentPage, limitResults=10):
         #  Start ElasticSearch
+        gc.collect()
         elastic = DarkElastic()
         elastic.search_index('dark', self.query)
         self.numDark = elastic.size
         self.maxPages = math.ceil((self.numDark) / float(limitResults))
-        self.maxPages  = int(self.maxPages)
+        self.maxPages = int(self.maxPages)
         #  Displays 10 results per page
         displayStart = int((currentPage * limitResults) - limitResults)
         displayEnd = int((currentPage * limitResults))

@@ -5,8 +5,9 @@ import pandas as pd
 import json
 from elasticsearch import Elasticsearch
 import requests
-import re 
+import re
 es = Elasticsearch()
+
 
 class DarkElastic(object):
 
@@ -18,8 +19,8 @@ class DarkElastic(object):
         with open(self.jsonPath) as searchIndex:
             searchIndex = json.load(searchIndex)
         self.size = 0
-	self.searchIndex = searchIndex
-	
+        self.searchIndex = searchIndex
+
     def pandas_to_json(self):
         """
         Take logFile, open as Dataframe, covert to JSON, Save JSON.
@@ -71,23 +72,23 @@ class DarkElastic(object):
         return (res['_source'])
 
     def search_index(self, myIndex, myQuery, start=0, end=10):
-        stopFilter = ['a', 'an', 'the'] 
+        stopFilter = ['a', 'an', 'the']
         res = es.search(
                         index=myIndex,
                         body={
                                 "from": start,
                                 "size": end,
-                                'query' : {
-                                            "query_string" : {
-                                            "default_field" : "CONTENT",
-                                            "query" : myQuery
+                                'query': {
+                                            "query_string": {
+                                                "default_field": "CONTENT",
+                                                "query": myQuery
                                             }
                                 },
-                                "sort" : {
-                                            "_score" : {
-                                            "order" : "desc"
-                                    }
-                                },
+                                "sort": {
+                                            "_score": {
+                                                        "order": "desc"
+                                            }
+                                }
                         }
         )
         self.briefList = []
@@ -100,13 +101,13 @@ class DarkElastic(object):
             content = hit['_source']['CONTENT']
             names = hit['_source']['NAMES']
             dates = hit['_source']['DATES']
-            brief = self.get_brief(myQuery,content, 20)
+            brief = self.get_brief(myQuery, content, 20)
             self.briefList.append(brief)
             self.namesList.append(names)
             self.datesList.append(dates)
             self.size = res['hits']['total']
         return hitList
-    
+
     def delete_deuplicates(self, i):
         pass
 
@@ -117,14 +118,13 @@ class DarkElastic(object):
         r = requests.delete('http://localhost:9200/%s' % (index))
         print('Index %s deleted.' % index)
 
-
     def get_brief(self, query, content, n):
         """
         Obtain the brief description that shows up in search
         """
         query = query.lower()
         queryList = query.split()
-        queryList.sort(key = len)
+        queryList.sort(key=len)
         content = content.lower().split()
         try:
             pos = content.index(query)
@@ -157,15 +157,15 @@ class DarkElastic(object):
 
     def runSetup(self):
         self.pandas_to_json()
-        self.save_json(self.searchIndex)   
+        self.save_json(self.searchIndex)
 
     def check_cat(self, description):
         return 'tor'
 
 if __name__ == '__main__':
-      test = DarkElastic("../logs/process.json")
-      test.runSetup()
-    ###  Build your index.
-      test.ingest_items()
-      es.indices.refresh(index='dark')
-      print test.search_index('dark', 'cocaine', 15, 10)
+    test = DarkElastic("../logs/process.json")
+    test.runSetup()
+    #  Build your index.
+    test.ingest_items()
+    es.indices.refresh(index='dark')
+    print test.search_index('dark', 'cocaine', 15, 10)

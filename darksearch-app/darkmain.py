@@ -14,10 +14,16 @@ from time import gmtime, strftime
 from flask import Flask, url_for, request, render_template
 from flask import redirect, Markup, session, abort, send_from_directory
 from flask_limiter import Limiter
-import gc
 
 app = Flask(__name__)
-limiter = Limiter(app, global_limits=["2000 per day", "400 per hour", "60 per minute",])
+limiter = Limiter(
+                    app, global_limits=[
+                                        "2000 per day",
+                                        "400 per hour",
+                                        "60 per minute"
+                        ]
+        )
+
 
 def deFace(alias):
     """
@@ -79,6 +85,7 @@ def page_not_found(e):
 def bad_request(e):
     return render_template('400.html'), 400
 
+
 @app.errorhandler(429)
 def ratelimit_handler(e):
     return render_template('429.html', notice=e.description), 429
@@ -117,4 +124,3 @@ if __name__ == '__main__':
             debug=True,
             threaded=True
     )
-    gc.collect()
