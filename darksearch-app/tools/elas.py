@@ -18,7 +18,6 @@ class DarkElastic(object):
         with open(self.jsonPath) as searchIndex:
             searchIndex = json.load(searchIndex)
         self.size = 0
-        searchIndex.close()
 	self.searchIndex = searchIndex
 	
     def pandas_to_json(self):
