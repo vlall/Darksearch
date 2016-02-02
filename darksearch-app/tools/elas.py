@@ -11,20 +11,14 @@ es = Elasticsearch()
 
 class DarkElastic(object):
 
-    def __init__(self, jsonPath="logs/process.json"):
-        """
-        Load JSON.
-        """
-        self.jsonPath = jsonPath
-        with open(self.jsonPath) as searchIndex:
-            searchIndex = json.load(searchIndex)
+    def __init__(self):
         self.size = 0
-        self.searchIndex = searchIndex
 
-    def pandas_to_json(self):
+    def pandas_to_json(self, jsonPath="logs/process.json"):
         """
         Take logFile, open as Dataframe, covert to JSON, Save JSON.
         """
+        self.jsonPath = jsonPath
         self.logPath = os.getcwd()+'/../logs/process.csv'
         with open(self.logPath) as logs:
             searchIndex = pd.read_csv(
@@ -42,6 +36,8 @@ class DarkElastic(object):
                             )
         self.size = len(searchIndex.index)
         searchIndex = searchIndex.to_json(orient='index')
+        #  If you want to use a JSON file rather than converting
+        #  with open(self.jsonPath) as searchIndex:
         searchIndex = json.loads(searchIndex)
         self.searchIndex = searchIndex
         self.save_json(searchIndex)
@@ -155,16 +151,16 @@ class DarkElastic(object):
         brief = " ".join(content)
         return brief
 
-    def runSetup(self):
-        self.pandas_to_json()
+    def runSetup(self, jsonPath):
+        self.pandas_to_json(jsonPath)
         self.save_json(self.searchIndex)
 
     def check_cat(self, description):
         return 'tor'
 
 if __name__ == '__main__':
-    test = DarkElastic("../logs/process.json")
-    test.runSetup()
+    test = DarkElastic()
+    test.runSetup("../logs/process.json")
     #  Build your index.
     test.ingest_items()
     es.indices.refresh(index='dark')
