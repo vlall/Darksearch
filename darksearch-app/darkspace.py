@@ -10,7 +10,6 @@ import math
 import gc
 from tools import DarkElastic
 from flask import Flask, url_for, request, render_template, redirect, Markup
-from pympler import tracker
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -25,7 +24,6 @@ class BackCheck(object):
         #  Removes all non-alphanumeric, non-white space characters
         query = re.sub(r'[^a-zA-Z\d\s:]', '', query)
         self.query = query
-        self.memory_tracker = tracker.SummaryTracker()
 
     def dark200(self, socialList, username):
         pass
