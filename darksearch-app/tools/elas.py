@@ -14,12 +14,12 @@ class DarkElastic(object):
     def __init__(self):
         self.size = 0
 
-    def pandas_to_json(self, jsonPath="logs/process.json"):
+    def pandas_to_json(self, jsonPath):
         """
         Take logFile, open as Dataframe, covert to JSON, Save JSON.
         """
         self.jsonPath = jsonPath
-        self.logPath = os.getcwd()+'/../logs/process.csv'
+        self.logPath = os.getcwd()+'/../logs/process2.csv'
         with open(self.logPath) as logs:
             searchIndex = pd.read_csv(
                                         logs,
@@ -31,6 +31,7 @@ class DarkElastic(object):
                                                 "NAMES",
                                                 "SIZE",
                                                 "LANG",
+                                                "TITLE",
                                                 "CONTENT"
                                         ]
                             )
@@ -90,6 +91,7 @@ class DarkElastic(object):
         self.briefList = []
         self.namesList = []
         self.datesList = []
+        self.titleList = []
 
         hitList = ("Got %d Hits:" % res['hits']['total'])
         for hit in res['hits']['hits']:
@@ -97,10 +99,12 @@ class DarkElastic(object):
             content = hit['_source']['CONTENT']
             names = hit['_source']['NAMES']
             dates = hit['_source']['DATES']
+            title = hit['_source']['TITLE']
             brief = self.get_brief(myQuery, content, 20)
             self.briefList.append(brief)
             self.namesList.append(names)
             self.datesList.append(dates)
+            self.titleList.append(title)
             self.size = res['hits']['total']
         return hitList
 
@@ -160,7 +164,7 @@ class DarkElastic(object):
 
 if __name__ == '__main__':
     test = DarkElastic()
-    test.runSetup("../logs/process.json")
+    test.runSetup("../logs/process2.json")
     #  Build your index.
     test.ingest_items()
     es.indices.refresh(index='dark')

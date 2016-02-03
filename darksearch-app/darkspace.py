@@ -49,14 +49,13 @@ class BackCheck(object):
 
     def darkResults(self, socialName, image, description, href, category='website'):
         description = str(description)
-        lowerName = socialName.lower()
         hrefs = ""
         href = href.replace('.html', "")
         if description:
             nLink = "<p class=\"description\">%s...</p>" % (description)
         if not description:
             hrefs = "<p class=\"description\">Potential items not found or are hidden</p>"
-        self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" /><h4><span class=\"name\"><a href=../%s><br> %s </font></a> </span> <span class=\"category\"><br>updated: %s</span></h4><p class=\"description\"><br>%s </p> </li>" % (image, href, socialName, category, description)
+        self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" /><h4><span class=\"name\"><a href=../%s> <p style=\"font-size:14px; color:#FFF; text-decoration: underline;\">%s</p></a> </span> <span class=\"category\"><p style=\"font-size:11px\">updated: %s</p></span></h4><p class=\"description\">%s </p> </li>" % (image, href, socialName, category, description)
         return self.results
 
     def make_pageBar(self, current, end):
@@ -99,6 +98,7 @@ class BackCheck(object):
         darkList = elastic.namesList
         dates = elastic.datesList
         display = elastic.briefList
+        title = elastic.titleList
         descTotal = ''
         self.pageBar = Markup(self.make_pageBar(currentPage, self.maxPages))
         for val in display:
@@ -106,7 +106,7 @@ class BackCheck(object):
             i = display.index(val)
             description = Markup(
                                     self.darkResults(
-                                                        darkList[i],
+                                                        title[i],
                                                         cat,
                                                         val,
                                                         darkList[i],

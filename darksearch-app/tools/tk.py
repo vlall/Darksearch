@@ -20,19 +20,28 @@ class Tikify:
 
 	def __init__(self, fileName):
 		parsed = parser.from_file(fileName)
-		self.metadata = parsed["metadata"]
-		content = parsed["content"]
+		metadata = parsed["metadata"]
 		#   Return re.sub('[\s+]', '', content)
-		content = content.replace('\n', '')
 		#  TODO: Delete... Very Redundant..
-		self.content = content.replace('\t', '')
-		self.content = content.replace('\'', '')
-		self.content = content.replace('\"', '')
+		content = parsed["content"]
+		content = content.replace('\n', '')
+		content = content.replace('\t', '')
+		content = content.replace('\'', '')
+		content = content.replace('\"', '')
 		rx = re.compile('\W+')
-		self.content = rx.sub(' ', self.content).strip()
-		self.title = self.metadata['title']
-		if self.title == None:
-			self.title = 'Untitled'
+		content = rx.sub(' ', content).strip()
+		self.content = content
+		#   Title...
+		try:
+			title = metadata['title']
+		except:
+		    title = 'Untitled'
+		title = title.replace('\t', '')
+		title = title.replace('\t', '')
+		title = title.replace('\'', '')
+		title = title.replace('\"', '')
+		title = rx.sub(' ', title).strip()
+		self.title = title
 		#  self.type = self.metadata['Content-Type-Hint']
 		#  self.name = self.metadata['resourceName']
 		#  lanFix = re.sub('[\s+]', '', content)
@@ -63,10 +72,10 @@ if __name__ == "__main__":
 			try:
 				output = Tikify(dataPath + name)
 				content = unicode(output.content)
-				title = unicode(output.title)
+				title = str(output.title)
 				lang = str(output.lang)
-				print ('Appended line %d...') % i 
 				with open("../logs/process2.csv", "a") as log:
-					log.write(('%s\t%s\t%s\t%s\t%s\t%s\n%s') % (date, url, name, size, lang, title, content))     
+					log.write(('%s\t%s\t%s\t%s\t%s\t%s\t%s\n') % (date, url, name, size, lang, title, content))
+					print ('Appended line %d...') % i 
 			except Exception:
 				continue
