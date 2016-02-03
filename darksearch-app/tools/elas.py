@@ -8,7 +8,6 @@ import requests
 import re
 es = Elasticsearch()
 
-
 class DarkElastic(object):
 
     def __init__(self):
@@ -69,7 +68,6 @@ class DarkElastic(object):
         return (res['_source'])
 
     def search_index(self, myIndex, myQuery, start=0, end=10):
-        stopFilter = ['a', 'an', 'the']
         res = es.search(
                         index=myIndex,
                         body={
@@ -92,7 +90,6 @@ class DarkElastic(object):
         self.namesList = []
         self.datesList = []
         self.titleList = []
-
         hitList = ("Got %d Hits:" % res['hits']['total'])
         for hit in res['hits']['hits']:
             print("%(DATES)s: %(URLS)s" % hit['_source'])
@@ -161,6 +158,12 @@ class DarkElastic(object):
 
     def check_cat(self, description):
         return 'tor'
+
+    def free_mem(self):
+        del self.briefList
+        del self.namesList
+        del self.datesList
+        del self.titleList
 
 if __name__ == '__main__':
     test = DarkElastic()

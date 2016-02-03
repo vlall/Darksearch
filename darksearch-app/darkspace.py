@@ -10,6 +10,7 @@ import math
 import gc
 from tools import DarkElastic
 from flask import Flask, url_for, request, render_template, redirect, Markup
+from pympler import tracker
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -24,6 +25,7 @@ class BackCheck(object):
         #  Removes all non-alphanumeric, non-white space characters
         query = re.sub(r'[^a-zA-Z\d\s:]', '', query)
         self.query = query
+        self.memory_tracker = tracker.SummaryTracker()
 
     def dark200(self, socialList, username):
         pass
@@ -68,7 +70,7 @@ class BackCheck(object):
             if page == current:
                 line = (
                         "<li ><a href=\"../search/%s\" method=\"post\">"
-                        "<font color=\"red\"><b>%s</b></font> </a></li>" 
+                        "<font color=\"red\"><b>%s</font> </a></li>" 
                         % (page, page)
                 )
             else:
@@ -81,8 +83,10 @@ class BackCheck(object):
         return (back + results + next)
 
     def darkSites(self, currentPage, limitResults=10):
-        #  Start ElasticSearch
+        # Clean up
         gc.collect()
+        self.memory_tracker.print_diff()
+        #  Start ElasticSearch
         elastic = DarkElastic()
         elastic.search_index('dark', self.query)
         self.numDark = elastic.size
@@ -92,25 +96,24 @@ class BackCheck(object):
         displayStart = int((currentPage * limitResults) - limitResults)
         displayEnd = int((currentPage * limitResults))
         elastic.search_index('dark', self.query, displayStart, limitResults)
-        darkList = elastic.namesList
-        dates = elastic.datesList
-        display = elastic.briefList
-        title = elastic.titleList
         descTotal = ''
         self.pageBar = Markup(self.make_pageBar(currentPage, self.maxPages))
-        for val in display:
+        for val in elastic.briefList:
             cat = elastic.check_cat(val)
-            i = display.index(val)
+            i = elastic.briefList.index(val)
             description = Markup(
                                     self.darkResults(
-                                                        title[i],
+                                                        elastic.titleList[i],
                                                         cat,
                                                         val,
-                                                        darkList[i],
+                                                        elastic.namesList[i],
                                                         elastic.datesList[i]
                                                         )
                         )
             descTotal = descTotal + description
+        elastic.free_mem()  # Attempting to free up memory..
+        del elastic
+        self.memory_tracker.print_diff()  # Memory check
         return Markup(descTotal)
 
 

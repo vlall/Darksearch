@@ -14,6 +14,8 @@ from time import gmtime, strftime
 from flask import Flask, url_for, request, render_template
 from flask import redirect, Markup, session, abort, send_from_directory
 from flask_limiter import Limiter
+from pympler import tracker
+
 
 app = Flask(__name__)
 limiter = Limiter(
@@ -59,6 +61,8 @@ def search(page=1):
     pageBar = alias.pageBar  # Do not turn to str.
     dur = ('%.3f') % (time.time() - start_time)
     make_logs(query, dur, results, page)
+    if page > pageTotal: 
+        abort(404)
     return render_template(
                             'search.html',
                             dur=dur,
