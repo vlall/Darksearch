@@ -32,21 +32,6 @@ class BackCheck(object):
         """Scrape all of the profile images on a webpage."""
         pass
 
-    def searchResults(self, socialName, image, link, category='website'):
-        """
-        Display each item as an HTML <li> for search.html
-        Gets called in darkmain.py.
-        """
-        lowerName = socialName.lower()
-        hrefs = ""
-        for i in link:
-            nLink = "<p class=\"description\"> <a href=\"%s\">%s</a> </p>" % (str(i), str(i))
-            hrefs = str(nLink + hrefs)
-        if not link:
-            hrefs = "<p class=\"description\">Potential items not found or are hidden</p>"
-        self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" /><h4><span class=\"name\">%s</span> <span class=\"category\">%s</span></h4><p class=\"description\"> %s </p> </li>" % (image, socialName, category, hrefs)
-        return self.results
-
     def darkResults(self, socialName, image, description, href, category='website'):
         description = str(description)
         hrefs = ""
@@ -55,7 +40,15 @@ class BackCheck(object):
             nLink = "<p class=\"description\">%s...</p>" % (description)
         if not description:
             hrefs = "<p class=\"description\">Potential items not found or are hidden</p>"
-        self.results = "<li> <img src=\"../static/listjs/images/icons/%s.png\" class=\"thumb\" /><h4><span class=\"name\"><a href=../%s> <p style=\"font-size:14px; color:#FFF; text-decoration: underline;\">%s</p></a> </span> <span class=\"category\"><p style=\"font-size:11px\">updated: %s</p></span></h4><p class=\"description\">%s </p> </li>" % (image, href, socialName, category, description)
+        self.results = (
+                        "<li> <img src=\"../static/listjs/images/icons/%s.png\""
+                        " class=\"thumb\" /><h4><span class=\"name\"><a href=../%s>"
+                        " <p style=\"font-size:14px; color:#517aa3; text-decoration: "
+                        "underline;\">%s</p></a> </span> <span class=\"category\">"
+                        "<p style=\"font-size:11px\">updated: %s</p></span>"
+                        "</h4><p class=\"description\">%s </p> </li>" 
+                        % (image, href, socialName, category, description)
+        )
         return self.results
 
     def make_pageBar(self, current, end):
@@ -73,7 +66,11 @@ class BackCheck(object):
             end = self.maxPages
         for page in range(start, end + 1):
             if page == current:
-                line = "<li ><a href=\"../search/%s\" method=\"post\"><font color=\"red\"><b>%s</b></font> </a></li>" % (page, page)
+                line = (
+                        "<li ><a href=\"../search/%s\" method=\"post\">"
+                        "<font color=\"red\"><b>%s</b></font> </a></li>" 
+                        % (page, page)
+                )
             else:
                 line = "<li ><a href=\"../search/%s\" method=\"post\">%s </a></li>" % (page, page)
             results = results + line
