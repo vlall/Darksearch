@@ -177,7 +177,7 @@ h2 strong {
 }
 h3 {
   font-size: 14px;
-  color: #808080;
+  color: #aaa;
   margin-bottom: 8px;
 }
 input {
@@ -658,3 +658,17 @@ a:visited .pages {
 a {
   text-decoration: none; 
 }
+
+.glowing-border {
+    outline: none;
+    border: solid 2px #334c66;
+    border-radius: 3px 0 0 3px;
+}
+.glowing-border:focus { 
+    outline: none;
+    border: solid 2px #3973ac;
+    box-shadow: 0 0 10px #3973ac;
+    border-radius: 3px 0 0 3px;
+
+}
+ 

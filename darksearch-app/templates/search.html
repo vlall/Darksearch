@@ -21,7 +21,8 @@
     <div>
     <h1>
       <form class="search" action="{{ url_for('search', page=1) }}" method="post">
-      <input class="search" autocomplete='on' name="search" value="{{query}}" required/>
+      <input class="search glowing-border" autocomplete='on' name="search" value="{{query}}" required/>
+
       </form>
       <a href='/'>
       <img class='main-logo' src="{{ url_for('static',filename='listjs/images/darksearch.png') }}"></img></a>
