@@ -85,7 +85,6 @@ class BackCheck(object):
     def darkSites(self, currentPage, limitResults=10):
         # Clean up
         gc.collect()
-        self.memory_tracker.print_diff()
         #  Start ElasticSearch
         elastic = DarkElastic()
         elastic.search_index('dark', self.query)
@@ -113,7 +112,6 @@ class BackCheck(object):
             descTotal = descTotal + description
         elastic.free_mem()  # Attempting to free up memory..
         del elastic
-        self.memory_tracker.print_diff()  # Memory check
         return Markup(descTotal)
 
 
