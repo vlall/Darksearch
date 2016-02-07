@@ -6,14 +6,16 @@ import urllib2
 import time
 import sys
 import requests
-from darkspace import BackCheck
 import logging
-from logging.handlers import RotatingFileHandler
 import threading
+from logging.handlers import RotatingFileHandler
+from darkspace import BackCheck
 from time import gmtime, strftime
 from flask import Flask, url_for, request, render_template
 from flask import redirect, Markup, session, abort, send_from_directory
+from flask.ext.api import FlaskAPI, status, exceptions
 from flask_limiter import Limiter
+from flask import jsonify
 from pympler import tracker
 
 
@@ -110,6 +112,31 @@ def make_logs(query, dur, results, page):
                                                     page
                                                 )
     app.logger.info(log)
+
+
+# API SECTION
+@app.route("/api/<text>/<int:page>", methods=['GET'])
+@limiter.limit("3/second")
+def user_get(text, page=1):
+    start_time = time.time()
+    alias = text
+    alias = deFace(alias)
+    engineList = alias.darkSites(page)
+    query = str(alias.query)
+    results = str(alias.numDark)
+    pageTotal = str(alias.maxPages)
+    dur = ('%.3f') % (time.time() - start_time)
+    make_logs(query, dur, results, page)
+    if page > pageTotal: 
+        return '404 Error'
+    return jsonify(
+                    {
+                    'query': '%s' % query,
+                    'size': '%s' % results,
+                    'total_pages': '%s' % pageTotal,
+                    'duration': '%s' % dur
+                }
+            )
 
 
 if __name__ == '__main__':
