@@ -3,6 +3,7 @@ Darksearch is a search engine that allows you to query cached onion sites, irc c
 
 ## Technologies
 - Tor and Scrapy for web scraping
+- Apache Kafka for streaming messages
 - Apache Tika for text translation
 - Postgres for the database
 - Elasticsearch as an index
