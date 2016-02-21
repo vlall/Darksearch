@@ -27,6 +27,15 @@ limiter = Limiter(
                                         "60 per minute"
                         ]
         )
+app.secret_key = os.urandom(24)  # Creates 24-char cookie
+handler = RotatingFileHandler(
+                            'darksearch/logs/info.log',
+                                maxBytes=10000,
+                            backupCount=1
+            )
+handler.setLevel(logging.INFO)
+app.logger.setLevel(logging.INFO)
+app.logger.addHandler(handler)
 
 
 def deFace(alias):
@@ -140,15 +149,6 @@ def user_get(text, page=1):
 
 
 if __name__ == '__main__':
-    app.secret_key = os.urandom(24)  # Creates 24-char cookie
-    handler = RotatingFileHandler(
-                                'logs/info.log',
-                                maxBytes=10000,
-                                backupCount=1
-                )
-    handler.setLevel(logging.INFO)
-    app.logger.setLevel(logging.INFO)
-    app.logger.addHandler(handler)
     app.run(
             host='0.0.0.0',
             port=80,
