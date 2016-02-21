@@ -63,7 +63,7 @@ def search(page=1):
     pageBar = alias.pageBar  # Do not turn to str.
     dur = ('%.3f') % (time.time() - start_time)
     make_logs(query, dur, results, page)
-    if page > pageTotal: 
+    if page > pageTotal:
         abort(404)
     return render_template(
                             'search.html',
@@ -127,15 +127,15 @@ def user_get(text, page=1):
     pageTotal = str(alias.maxPages)
     dur = ('%.3f') % (time.time() - start_time)
     make_logs(query, dur, results, page)
-    if page > pageTotal: 
+    if page > pageTotal:
         return '404 Error'
     return jsonify(
                     {
-                    'query': '%s' % query,
-                    'size': '%s' % results,
-                    'total_pages': '%s' % pageTotal,
-                    'duration': '%s' % dur
-                }
+                        'query': '%s' % query,
+                        'size': '%s' % results,
+                        'total_pages': '%s' % pageTotal,
+                        'duration': '%s' % dur
+                    }
             )
 
 

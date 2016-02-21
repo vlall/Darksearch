@@ -46,7 +46,7 @@ class BackCheck(object):
                         " <p style=\"font-size:14px; color:#517aa3; text-decoration: "
                         "underline;\">%s</p></a> </span> <span class=\"category\">"
                         "<p style=\"font-size:11px\">updated: %s</p></span>"
-                        "</h4><p class=\"description\">%s </p> </li>" 
+                        "</h4><p class=\"description\">%s </p> </li>"
                         % (image, href, socialName, category, description)
         )
         return self.results
@@ -68,7 +68,7 @@ class BackCheck(object):
             if page == current:
                 line = (
                         "<li ><a href=\"../search/%s\" method=\"post\">"
-                        "<font color=\"red\"><b>%s</font> </a></li>" 
+                        "<font color=\"red\"><b>%s</font> </a></li>"
                         % (page, page)
                 )
             else:
