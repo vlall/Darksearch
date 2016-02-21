@@ -1,13 +1,9 @@
 #!/usr/bin/python
 
-from darksearch.darkmain import app
-from logging.handlers import RotatingFileHandler
-import os
-import logging
-
+from darksearch.darkmain import app as application
 
 def main():
-    app.run(
+    application.run(
             host='0.0.0.0',
             port=80,
             threaded=True,

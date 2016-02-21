@@ -4,7 +4,7 @@ import subprocess
 from time import sleep
 import requests
 
-process = subprocess.Popen("python dark_server.py", shell=True)
+process = subprocess.Popen("sudo gunicorn --bind 0.0.0.0:80 dark_server", shell=True)
 print('Darksearch started.')
 sleep(5)
 darkRequest = requests.get('http://0.0.0.0')

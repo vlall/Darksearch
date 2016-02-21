@@ -9,7 +9,7 @@ Darksearch is a search engine that allows you to query cached onion sites, irc c
 - Apache Tika for text translation
 - Postgres for the database
 - Elasticsearch as an index
-- Flask/flask-api/Twisted for the server
-- Nginx for reverse proxying
+- Flask/flask-api/Gunicorn for the server
+- Nginx for reverse proxy
 
 The Darksearch index is growing as more scrapers get built...
