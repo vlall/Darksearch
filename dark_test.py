@@ -6,7 +6,7 @@ import subprocess
 from time import sleep
 import requests
 
-process = subprocess.Popen("pytdhon dark_server.py", shell=True)
+process = subprocess.Popen("python dark_server.py", shell=True)
 print ('Darksearch started.')
 sleep(10)
 darkRequest = requests.get('http://0.0.0.0')
