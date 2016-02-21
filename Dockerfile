@@ -14,7 +14,10 @@ RUN \
   numpy \
   pandas \
   flask \
-  flask-limiter
+  Flask-Limiter \
+  Flask-API \
+  requests \
+  Pympler
 
 WORKDIR /home
 RUN \

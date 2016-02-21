@@ -7,7 +7,7 @@ import os
 import csv
 import pandas as pd
 
-class Tikify:
+class Tikify(object):
 
 	'''
 	DataBase Ingestion Script
