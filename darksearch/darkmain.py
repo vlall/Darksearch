@@ -88,7 +88,9 @@ def search(page=1):
 @app.route("/<onion>", methods=['POST', 'GET'])
 def link(onion):
     onion = onion.replace('.html', "")
-    return send_from_directory('data', onion+'.html')
+    root_dir = os.path.dirname(os.getcwd())
+    #  print root_dir
+    return send_from_directory(os.path.join(root_dir, 'darksearch/darksearch/data'), onion+'.html')
 
 
 @app.errorhandler(404)
