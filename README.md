@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/vlall/darksearch.svg?branch=master)](https://travis-ci.org/vlall/darksearch)
+
 ## About Darksearch
 Darksearch is a search engine that allows you to query cached onion sites, irc chatrooms, various pdfs, game chats, blackhat forums etc...  
 
