@@ -11,7 +11,5 @@ sleep(5)
 darkRequest = requests.get('http://0.0.0.0')
 darkRequest.raise_for_status()
 #  Check cached pages get displayed
-darkRequest = requests.get('http://0.0.0.0/ltvplgp6pimxg3nv')
-darkRequest.raise_for_status()
 process.kill()
 print('Darksearch is running in the background...')
