@@ -42,7 +42,7 @@ class BackCheck(object):
             hrefs = "<p class=\"description\">Potential items not found or are hidden</p>"
         self.results = (
                         "<li> <img src=\"../static/listjs/images/icons/%s.png\""
-                        " class=\"thumb\" /><h4><span class=\"name\"><a href=../%s>"
+                        " class=\"thumb\" /><h4><span class=\"name\"><a href=%s.onion.to>"
                         " <p style=\"font-size:14px; color:#517aa3; text-decoration: "
                         "underline;\">%s</p></a> </span> <span class=\"category\">"
                         "<p style=\"font-size:11px\">updated: %s</p></span>"
