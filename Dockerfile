@@ -1,6 +1,5 @@
 FROM ubuntu:14.04
 MAINTAINER Vishal Lall "vishal.h.lall@gmail.com"
-RUN add-apt-repository ppa:webupd8team/java
 RUN apt-get update && apt-get install -y \
 	python \
 	build-essential \
@@ -8,20 +7,12 @@ RUN apt-get update && apt-get install -y \
 	python-pip \
 	git \
 	wget \
-	oracle-java8-installer
-RUN \
-  pip install elasticsearch \
-  numpy \
-  pandas \
-  flask \
-  Flask-Limiter \
-  Flask-API \
-  requests \
-  Pympler
+        openjdk-7-jre \
+        libblas-dev liblapack-dev
 
 WORKDIR /home
 RUN \
   wget "https://download.elasticsearch.org/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch/2.2.0/elasticsearch-2.2.0.deb" -O elasticsearch-2.2.0.deb && \
-  dpkg -i elasticsearch-2.2.0.deb && \
-  git clone https://github.com/vlall/darksearch
-  
+  dpkg -i elasticsearch-2.2.0.deb
+RUN git clone https://github.com/vlall/darksearch
+RUN pip install -r /home/darksearch/requirements.txt  
