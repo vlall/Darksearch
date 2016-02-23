@@ -61,7 +61,7 @@ target/
 *.json
 *.csv
 data/
-logs/
+logs/*
 .DS_Store
 icons/
 darksearch-app/
