@@ -67,7 +67,7 @@
   <body>
     <img class = 'logo' src="{{ url_for('static',filename='front/images/darksearch.png') }}"></img>
     <form class="search" action="{{ url_for('search', page=1) }}" method="post">
-      <input class="glowing-border" name="search" type="search" placeholder="Search here..." required>
+      <input class="glowing-border" name="search" type="search" placeholder="Search for hidden material..." required>
       <button type="submit"><img src="{{ url_for('static',filename='etc/search.png') }}" style="width:20px;height:20px;"></button>
     </form>
     <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>  
