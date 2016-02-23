@@ -120,7 +120,9 @@ class DarkElastic(object):
         Obtain the brief description that shows up in search
         """
         query = query.lower()
-        queryList = query.split()
+	#  Strips quotes
+	query = re.sub(r'[^a-zA-Z\d\s:]', '', query)
+	queryList = query.split()
         queryList.sort(key=len)
         content = content.lower().split()
         try:

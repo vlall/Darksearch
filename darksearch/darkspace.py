@@ -21,9 +21,9 @@ class BackCheck(object):
     """
 
     def __init__(self, query, dob=None):
-        #  Removes all non-alphanumeric, non-white space characters
-        query = re.sub(r'[^a-zA-Z\d\s:]', '', query)
-        self.query = query
+        #  Removes all non-alphanumeric, non-white space characters but keeps quotes
+        query = re.sub(r'[^a-z\'"A-Z\d\s:]', '', query)
+	self.query = query
 
     def dark200(self, socialList, username):
         pass
