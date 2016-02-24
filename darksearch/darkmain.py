@@ -30,8 +30,8 @@ limiter = Limiter(
 app.secret_key = os.urandom(24)  # Creates 24-char cookie
 handler = RotatingFileHandler(
                             'darksearch/logs/info.log',
-                                maxBytes=10000,
-                            backupCount=1
+                                maxBytes=100000,
+                            backupCount=10
             )
 handler.setLevel(logging.INFO)
 app.logger.setLevel(logging.INFO)

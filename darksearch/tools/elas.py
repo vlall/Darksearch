@@ -121,7 +121,7 @@ class DarkElastic(object):
         """
         query = query.lower()
 	#  Strips quotes
-	query = re.sub(r'[^a-zA-Z\d\s:]', '', query)
+	query = query.replace('\"', "")
 	queryList = query.split()
         queryList.sort(key=len)
         content = content.lower().split()
