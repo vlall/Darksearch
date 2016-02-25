@@ -58,7 +58,7 @@ docs/_build/
 target/
 
 # My additions for data
-# Plese see the .gitignore in logs! it prevents the logs from being uploaded...
+# Please see the .gitignore in logs! it prevents the logs from being uploaded...
 *.json
 *.csv
 data/
