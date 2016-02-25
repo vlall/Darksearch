@@ -2,8 +2,6 @@ sudo: required
 language: python
 python:
     2.7
-before_script:
-    - mkdir darksearch/logs
 # Needs sudo...
 install:
     - sudo apt-get install gunicorn
