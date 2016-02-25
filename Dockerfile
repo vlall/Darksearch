@@ -1,5 +1,4 @@
 FROM ubuntu:14.04
-MAINTAINER Vishal Lall "vishal.h.lall@gmail.com"
 RUN apt-get update && apt-get install -y \
 	python \
 	build-essential \
