@@ -57,8 +57,7 @@ docs/_build/
 # PyBuilder
 target/
 
-# My additions for data
-# Plese see the .gitignore in logs! it prevents the logs from being uploaded...
+# See the .gitignore in logs, it prevents the logs from being uploaded...
 *.json
 *.csv
 data/
