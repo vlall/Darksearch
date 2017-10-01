@@ -1,10 +1,10 @@
-[![Build Status](https://travis-ci.org/vlall/darksearch.svg?branch=master)](https://travis-ci.org/vlall/darksearch)
+#  Darksearch
 
-###About Darksearch
-[Darksearch](http://www.darksearch.com) allows you to query cached onion sites, irc chatrooms, various pdfs, game chats, blackhat forums etc...
-<img src="https://raw.githubusercontent.com/vlall/darksearch/master/darksearch/docs/darksearch.png" width="700">
+Darkweb search engine
+
+
 ## API
-Darksearch also has an API in the works. Currently you can't scrape specific data for your queries, but you can retrieve metadata on your searches by using a GET request on darksearch.io/api/YOUR_QUERY/PAGE_NUMBER
+Darksearch also has an API in the works. You can retrieve data on your searches by using a GET request on darksearch.io/api/YOUR_QUERY/PAGE_NUMBER
 ```
 $ curl -XGET darksearch.com/api/spies/1
 
@@ -18,3 +18,22 @@ $ curl -XGET darksearch.com/api/spies/1
 ```
 
 The Darksearch index is growing as more scrapers get built...
+
+#  /Crawler:
+The DS crawler is responsible for recursively searching for embedded <a href=""></a> tags. This gets called py the master_pipe.py  
+
+## Torfka
+Allows you to scrape the dark web as well as publish the streams to a local kafka messaging queue. 
+
+#  /Site:
+Contains everything related to the site. Based of the Flask-user-starter-app, we have a registration setup. Look into Flask-User to see how to edit and manage all of the features Flask-user adds. This is useful for having a registered base of users
+
+#  Postgres Server-
+Flask-Users are stored in a postgres database using the credentials in the env_settings.py. 
+
+#  Elasticsearch Server
+The database is indexed for quick lookup in the search engine. The 'dark' index is posted to with a PUT request and stays running on the server. The server then uses a GET request anytime a user searches for something in the index. As the database gets updated, the index needs to be updated
+
+
+
+

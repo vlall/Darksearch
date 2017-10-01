@@ -57,10 +57,25 @@ docs/_build/
 # PyBuilder
 target/
 
+# dotenv
+.env
+ 
+# virtualenv
+.venv/
+venv/
+ENV/
+
 # See the .gitignore in logs, it prevents the logs from being uploaded...
 *.json
 *.csv
-data/
+env_settings.py
+log.info
 .DS_Store
-icons/
-darksearch-app/
+data/
+logs/
+trash/
+ssl/
+migrations/
+seeds/
+ConfigClass.py
+
