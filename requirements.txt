@@ -3,7 +3,7 @@ Flask==0.10.1
 Flask-API==0.6.5
 Flask-Limiter==0.9.1
 itsdangerous==0.24
-Jinja2==2.8
+Jinja2==2.11.3
 limits==1.1
 MarkupSafe==0.23
 numpy==1.10.4
