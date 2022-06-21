@@ -6,7 +6,7 @@ itsdangerous==0.24
 Jinja2==2.8
 limits==1.1
 MarkupSafe==0.23
-numpy==1.10.4
+numpy==1.22.0
 pandas==0.17.1
 Pympler==0.4.2
 python-dateutil==2.4.2
